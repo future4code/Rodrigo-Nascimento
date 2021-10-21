@@ -135,6 +135,14 @@ td button {
     background-color: #635a3d
 }
 
+#botao-loja-comprar:hover {
+    background-color: #fe7e02;
+}
+#botao-loja-comprar:active{
+    background-color: white;
+
+}
+
 p span{
     display:block
 }
