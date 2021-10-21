@@ -4,10 +4,12 @@
   *
   **/
 
+
 * {
     margin: 0;
     padding: 0;
 }
+
 
 h2 {
     background-color: #fe7e02;
@@ -44,7 +46,6 @@ div img {
     border-radius: 5px;
     font-size: 20px;
     color: white;
-    position: relative;
 }
 
 .botao-amarelo:hover {
@@ -70,6 +71,8 @@ div img {
 #container-de-descricao {
     background-color: #2274a5;
     color: white;
+    padding-top: 30px;
+    
 }
 
 #container-de-descricao>ol {
