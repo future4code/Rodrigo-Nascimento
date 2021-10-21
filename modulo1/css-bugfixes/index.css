@@ -132,3 +132,7 @@ td button {
 #back-button:hover {
     background-color: #635a3d
 }
+
+p span{
+    display:block
+}
