@@ -1,31 +1,40 @@
 *{
     margin: 0;
     padding: 0;
-    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+
 }
 
 /* cabeçalho */
 
 header{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 50px;
+    background-color: #9e9da2;
+    text-align: center;
 }
 
 /* index */
 
-header{
+#imagem-pessoal{
 
-    color: white;
-    background-color: #366473;
+  text-align: center;
+  margin: 60px;
+  
+
+}
+
+.texto-pessoal{
     text-align: center;
-    height: 80px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: auto;
+    margin-top: 100px;
+    font-size: x-large;
 }
 
 button {
+
     border: none;
     color: white;
-    background-color: #5dadc8;
+    background-color: #4b4a4d;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -36,51 +45,136 @@ button {
 }
 
 button:hover{
+
     background-color: #1a0e1e;
 }
 
 
 body{
-    background-color: #0e1a1e
-    ;
+
+    background-color: white;
 }
 
 .paginas{
     
-    color: white;
-    background-color: #366473;
+    background-color: #9e9da2;
     text-align: center;
-    height: 80px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height: 100px;
+   
 }
 
-
 .redes-sociais{
+    
     position: fixed;
-    left: 0;
     bottom: 0;
+    left: 0;
     width: 100%;
-    background-color: #366473;
-    color: white;
+    background-color: #9e9da2;
     text-align: center;
-    height: 80px;
+    height: 100px;
+}
 
+.imagens-redes1:hover{
+    opacity: 0.55;
+
+}
+
+.imagens-redes2:hover{
+    opacity: 0.55;
+}
+
+.imagens-redes3:hover{
+    opacity: 0.55;
 }
 
 .texto-rede{
     text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 20px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+
+
+/* sobre */
+
+.texto-formacao{
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.texto-cursos{
+    margin-left: 20px;
+}
+
+.texto-experiencia{
+    margin-left: 20px;
+    
+}
+
+.texto-habilidades{
+    margin-left: 20px;
+
 }
 
 /* contato */
 
-.entrar-em-contato{
-    text-align: center;
-    margin: auto;
-    font-size: large;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+#area{
+  margin-top: 50px;
+  position:relative;
+  width:320px;
+  height:270px;
+  font-weight: bold;
+  margin-left: 20px;
+  text-align: center;
 }
 
-/* sobre */
+#area #formulario{
 
+  position:static;
+  display:block;
+ 
+}
+
+fieldset{
+
+  width:400px;
+  height:250px;
+  
+}
+
+legend{
+
+  font-style:bold;
+}
+
+#formulario label{
+
+  position:absolute;
+  left:19px;
+  margin-right:5px;
+}
+
+#formulario input.campo-nome{
+
+  position:absolute;
+  left:95px;
+  top:23px;
+  width:225px;
+}
+
+#formulario input.campo-email{
+
+  position:absolute;
+  left:95px;
+  margin-top:2px;
+  width:225px;
+}
+
+#formulario input.campo-telefone{
+
+  position:absolute;
+  left:95px;
+  margin-top:2px;
+  width:225px;
+}
