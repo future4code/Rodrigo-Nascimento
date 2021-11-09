@@ -5,6 +5,12 @@ import Etapa3 from "./components/Etapa3";
 import Etapa4 from "./components/Etapa4";
 import styled from 'styled-components';
 
+const Estilo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+`
 
 
 export default class App extends React.Component {
@@ -27,20 +33,21 @@ export default class App extends React.Component {
     }
   }
 
-  // irParaProximaEtapa = () => {
-  //   if (this.state.etapa === ){
-  //   }
+  irParaProximaEtapa = () => {
+    this.setState({
+      etapa: this.state.etapa + 1
+    })
+    }
 
-  // }
 
   
   render() {
 
     return (
-      <div>
+      <Estilo>
         {this.renderizaEtapa()}
-        {this.state.etapa <= 4 && <button>Próxima etapa</button>}
-      </div>
+        {this.state.etapa <= 4 && <button onClick={this.irParaProximaEtapa}>Próxima etapa</button>}
+      </Estilo>
       
     );
   }
