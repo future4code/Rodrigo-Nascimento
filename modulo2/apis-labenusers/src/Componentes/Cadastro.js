@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components"
 import axios from "axios";
 
-const EstiloDiv = styled.div`
+const EstiloCadastro = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -82,14 +82,14 @@ class Cadastro extends React.Component {
                 <li>
                     {console.log(this.state.id)}
                     {user.name}
-                    <button onClick={(e) => this.deleteUser(user.id, e)}>Deletar Usuário</button>
+                    <button onClick={() => this.deleteUser(user.id)}>Deletar Usuário</button>
                 </li>
             )
         })
        
         return (
 
-            <EstiloDiv>
+            <EstiloCadastro>
                 <h1>Cadastro Usuário</h1>
                 <form>
                     <label for="email">E-mail:</label>
@@ -102,7 +102,7 @@ class Cadastro extends React.Component {
                 <button onClick={this.createUser}>Enviar</button>
                 <button onClick={this.getAllUsers}>Usuários</button>
                 {users}
-            </EstiloDiv>    
+            </EstiloCadastro>    
         )
     }
 }
