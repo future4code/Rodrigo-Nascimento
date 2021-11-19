@@ -18,7 +18,7 @@ export default class EditarPlaylist extends React.Component{
             <div>
                 <button onClick={this.props.mudarParaCriar}>Criar Playlists</button>
                 <h1>Editar Playlists</h1>
-                <CriarPlaylist/>
+                {/* <CriarPlaylist/> */}
             </div>
         )
     }

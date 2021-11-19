@@ -24,7 +24,9 @@ export default class CriarPlaylist extends React.Component{
 
     state = {
         nome: "",
-        playlist: []
+        playlist: [],
+        playlistId: [],
+        musicas: []
 
     }
 
@@ -66,6 +68,7 @@ export default class CriarPlaylist extends React.Component{
             }
         }).then((resposta) =>{
             this.setState({playlist: resposta.data.result.list})
+            this.setState({playlistId: resposta.data.result.id})
         }).catch((erro) =>{
             console.log(erro.response.data)
         })
@@ -87,25 +90,56 @@ export default class CriarPlaylist extends React.Component{
         })
     }
 
+    visualizarFaixasPlaylist = (playlistId) =>{
+        const url = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${playlistId}/tracks`
+
+        axios.get(url, {
+            headers: {
+                Authorization: "rodrigo-santos-carver"
+            }
+        }).then((resposta) =>{
+            // this.setState({faixas: resposta.data.result.tracks})
+            // console.log(resposta.data.result.tracks)
+            this.setState({musicas: resposta.data.result.tracks})
+        }).catch((erro) =>{
+            console.log(erro.response.data)
+        })
+    }
+
 
     render(){
 
-        console.log(this.visualizarPlaylist)
-
+        
+        console.log("id", this.state.playlistId)
         const mostraPlaylist = this.state.playlist.map((lista) =>{
             return (
                 <ListaPlaylist key={lista.id}>
+                    {/* {this.state.playlistId = lista.id} */}
+                    <button onClick={this.props.mudarParaPlaylist}>editar</button>
                     {lista.name}
                     <button onClick={() => this.deletarPlaylist(lista.id)}>x</button>
-                    <button onClick={this.props.mudarParaPlaylist}>Editar Playlist</button>
+                    
                 </ListaPlaylist>
-                
+       
             )
         }) 
- 
+
+        const mostraFaixaPlaylist = this.state.musicas.map((lista) =>{
+            return (
+                <div>
+                    <h1>TESTE</h1>
+                    {lista.id}
+                    {lista.name}
+                    {lista.artist}
+                    {lista.url}
+                    {/* <button onClick={() => this.visualizarFaixasPlaylist()}>Editar Playlist</button> */}
+                </div>
+            )
+        })
+        console.log("musicas", mostraFaixaPlaylist)
         return(
             <EstiloDiv>
-                <button onClick={this.props.mudarParaPlaylist}>Editar Playlist</button>
+                {/* <button onClick={this.props.mudarParaPlaylist}>Editar Playlist</button> */}
                 <h1>Criar Playlists</h1>
                 <input 
                 placeholder={"Nome da Playlist"}
@@ -118,6 +152,9 @@ export default class CriarPlaylist extends React.Component{
                 <br/>
                 <h2>Playlists Criadas</h2>
                 {mostraPlaylist}
+                <br/>
+                {mostraFaixaPlaylist}
+                
             </EstiloDiv>
         )
     }
