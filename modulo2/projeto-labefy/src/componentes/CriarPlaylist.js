@@ -7,6 +7,15 @@ const EstiloDiv = styled.div`
 display: flex;
 align-items: center;
 flex-direction: column;
+`
+
+const ListaPlaylist = styled.li`
+
+
+display: flex;
+width: 300px;
+border: black solid 1px;
+justify-content: space-between;
 
 
 `
@@ -39,6 +48,8 @@ export default class CriarPlaylist extends React.Component{
             }
         }).then((resposta) =>{
             alert("Playlist criada com sucesso")
+            this.setState({nome: ""})
+            this.visualizarPlaylist()
 
         }).catch((erro) =>{
             alert(erro.response.data.message)
@@ -61,16 +72,34 @@ export default class CriarPlaylist extends React.Component{
         
     }
 
+    deletarPlaylist = (playlistId) =>{
+        const url = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${playlistId}`
+
+        axios.delete(url, {
+            headers: {
+                Authorization: "rodrigo-santos-carver"
+            }
+        }).then((resposta) =>{
+            alert("Playlist deletada")
+            this.visualizarPlaylist()
+        }).catch((erro) =>{
+            alert(erro.response.data)
+        })
+    }
+
 
     render(){
 
-        console.log(this.state.playlist)
+        console.log(this.visualizarPlaylist)
 
         const mostraPlaylist = this.state.playlist.map((lista) =>{
             return (
-                <li>
-                    {lista.id} - {lista.name}
-                </li>
+                <ListaPlaylist key={lista.id}>
+                    {lista.name}
+                    <button onClick={() => this.deletarPlaylist(lista.id)}>x</button>
+                    <button onClick={this.props.mudarParaPlaylist}>Editar Playlist</button>
+                </ListaPlaylist>
+                
             )
         }) 
  
@@ -84,7 +113,10 @@ export default class CriarPlaylist extends React.Component{
                 onChange={this.onChangeInput}
                 />
                 <button onClick={this.criarPlaylist}>Criar</button>
-                <button onClick={this.visualizarPlaylist}>Visualizar Playlists</button>
+                <br/>
+                <br/>
+                <br/>
+                <h2>Playlists Criadas</h2>
                 {mostraPlaylist}
             </EstiloDiv>
         )
