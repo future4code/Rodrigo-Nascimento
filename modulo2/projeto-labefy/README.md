@@ -1,7 +1,7 @@
 ``
 Link do surge:
 
-https://ecommerce-labenu-13.surge.sh
+efficient-band.surge.sh
 
 #Descrição#
 
