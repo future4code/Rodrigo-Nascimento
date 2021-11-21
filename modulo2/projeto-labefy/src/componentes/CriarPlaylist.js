@@ -161,35 +161,28 @@ export default class CriarPlaylist extends React.Component {
                 Authorization: "rodrigo-santos-carver"
             }
         }).then((resposta) => {
-            console.log("resposta adiciona musica", resposta)
             alert("Música adicionada")
             this.setState({tituloMusica: ""})
             this.setState({artista: ""})
             this.setState({url: ""})
             this.visualizarPlaylist()
         }).catch((erro) => {
-            console.log(erro.response.data)
-        })
-    }
-
-    guardaId = () => {
-        this.state.playlist.map((lista) => {
-            this.state.playlistId = lista.id
+            alert("Verifique se inseriu todos os dados ou selecionou a playlist")
         })
     }
 
 
     render() {
+        console.log(this.state.playlistId, "id")
 
-        console.log(this.guardaId(), "guarda id")
 
         const mostraPlaylist = this.state.playlist.map((lista) => {
             return (
-                <Divs key={lista.id}>
+                <Divs key={lista.id} onClick={() => this.setState({playlistId: lista.id})}>
                     {lista.name}
                     <div>
                         <button onClick={() => this.visualizarFaixasPlaylist(lista.id)}>Visualizar</button>
-                        <button className="deletar" onClick={() => this.deletarPlaylist(lista.id)}>Apagar</button>
+                        <button onClick={() => this.deletarPlaylist(lista.id)}>Apagar</button>
                     </div>
                 </Divs>
             )
@@ -218,7 +211,7 @@ export default class CriarPlaylist extends React.Component {
                 <h3>Playlists Criadas</h3>
                 {mostraPlaylist}
                 {mostraFaixaPlaylist}
-                <h3>Adicionar Música a playlist</h3>
+                <h3>Adicionar Música</h3>
                 <input
                     placeholder={"Título da música"}
                     value={this.state.tituloMusica}
