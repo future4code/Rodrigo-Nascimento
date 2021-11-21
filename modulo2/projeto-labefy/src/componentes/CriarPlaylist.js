@@ -9,36 +9,53 @@ align-items: center;
 flex-direction: column;
 `
 
-const ListaPlaylist = styled.li`
+const EstiloCriarPlaylist = styled.div`
 
-
-display: flex;
-width: 300px;
-border: black solid 1px;
-justify-content: space-between;
-
+border: 1px black solid;
 
 `
 
-export default class CriarPlaylist extends React.Component{
+const ListaPlaylist = styled.li`
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+`
+
+export default class CriarPlaylist extends React.Component {
 
     state = {
         nome: "",
         playlist: [],
-        playlistId: [],
-        musicas: []
+        musicas: [],
+        tituloMusica: "",
+        artista: "",
+        url: ""
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.visualizarPlaylist()
     }
 
-    onChangeInput = (event) =>{
-        this.setState({nome: event.target.value})
+    onChangeInput = (event) => {
+        this.setState({ nome: event.target.value })
     }
 
-    criarPlaylist = () =>{
+    onChangeTituloMusica = (event) => {
+        this.setState({ tituloMusica: event.target.value })
+    }
+
+    onChangeArtista = (event) => {
+        this.setState({ artista: event.target.value })
+    }
+
+    onChangeUrl = (event) => {
+        this.setState({ url: event.target.value })
+    }
+
+    criarPlaylist = () => {
         const url = "https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists"
         const body = {
             name: this.state.nome
@@ -48,113 +65,148 @@ export default class CriarPlaylist extends React.Component{
             headers: {
                 Authorization: "rodrigo-santos-carver"
             }
-        }).then((resposta) =>{
+        }).then((resposta) => {
             alert("Playlist criada com sucesso")
-            this.setState({nome: ""})
+            this.setState({ nome: "" })
             this.visualizarPlaylist()
 
-        }).catch((erro) =>{
+        }).catch((erro) => {
             alert(erro.response.data.message)
 
         })
     }
 
-    visualizarPlaylist = () =>{
+    visualizarPlaylist = () => {
         const url = "https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists"
 
         axios.get(url, {
             headers: {
                 Authorization: "rodrigo-santos-carver"
             }
-        }).then((resposta) =>{
-            this.setState({playlist: resposta.data.result.list})
-            this.setState({playlistId: resposta.data.result.id})
-        }).catch((erro) =>{
-            console.log(erro.response.data)
+        }).then((resposta) => {
+            this.setState({ playlist: resposta.data.result.list })
+        }).catch((erro) => {
+            console.log(erro.response.data.message)
         })
-        
     }
 
-    deletarPlaylist = (playlistId) =>{
+    deletarPlaylist = (playlistId) => {
         const url = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${playlistId}`
 
         axios.delete(url, {
             headers: {
                 Authorization: "rodrigo-santos-carver"
             }
-        }).then((resposta) =>{
+        }).then((resposta) => {
             alert("Playlist deletada")
             this.visualizarPlaylist()
-        }).catch((erro) =>{
+        }).catch((erro) => {
             alert(erro.response.data)
         })
     }
 
-    visualizarFaixasPlaylist = (playlistId) =>{
+    visualizarFaixasPlaylist = (playlistId) => {
         const url = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${playlistId}/tracks`
 
         axios.get(url, {
             headers: {
                 Authorization: "rodrigo-santos-carver"
             }
-        }).then((resposta) =>{
-            // this.setState({faixas: resposta.data.result.tracks})
-            // console.log(resposta.data.result.tracks)
-            this.setState({musicas: resposta.data.result.tracks})
-        }).catch((erro) =>{
+        }).then((resposta) => {
+            this.setState({ musicas: resposta.data.result.tracks })
+
+            console.log("aqui", resposta.data)
+        }).catch((erro) => {
+            console.log(erro.response.data.message)
+        })
+    }
+
+    adicionarMusicas = (playlistId) => {
+        const url = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${playlistId}/tracks`
+        const body = {
+            name: this.state.tituloMusica,
+            artist: this.state.artista,
+            url: this.state.url
+        }
+
+        axios.post(url, body, {
+            headers: {
+                Authorization: "rodrigo-santos-carver"
+            }
+        }).then((resposta) => {
+            console.log("resposta adiciona musica", resposta)
+            alert("Música adicionada")
+            this.visualizarPlaylist()
+        }).catch((erro) => {
             console.log(erro.response.data)
         })
     }
 
 
-    render(){
+    render() {
 
-        
-        console.log("id", this.state.playlistId)
-        const mostraPlaylist = this.state.playlist.map((lista) =>{
-            return (
-                <ListaPlaylist key={lista.id}>
-                    {/* {this.state.playlistId = lista.id} */}
-                    <button onClick={this.props.mudarParaPlaylist}>editar</button>
-                    {lista.name}
-                    <button onClick={() => this.deletarPlaylist(lista.id)}>x</button>
-                    
-                </ListaPlaylist>
-       
-            )
-        }) 
-
-        const mostraFaixaPlaylist = this.state.musicas.map((lista) =>{
+        const mostraPlaylist = this.state.playlist.map((lista) => {
             return (
                 <div>
-                    <h1>TESTE</h1>
-                    {lista.id}
                     {lista.name}
-                    {lista.artist}
-                    {lista.url}
-                    {/* <button onClick={() => this.visualizarFaixasPlaylist()}>Editar Playlist</button> */}
+                    <ListaPlaylist key={lista.id}>
+                        <button onClick={() => this.visualizarFaixasPlaylist(lista.id)}>Visualizar</button>
+                        <button onClick={() => this.adicionarMusicas(lista.id)}>Adicionar Música</button>
+                        <button className="deletar" onClick={() => this.deletarPlaylist(lista.id)}>Apagar</button>            
+                    </ListaPlaylist>
                 </div>
             )
         })
-        console.log("musicas", mostraFaixaPlaylist)
-        return(
+
+        const mostraFaixaPlaylist = this.state.musicas.map((faixa) => {
+            return (
+                <div key={faixa.id}>
+                    <h3>{faixa.artist} - {faixa.name}</h3>
+                    <audio controls>
+                        <source src={faixa.url} />
+                    </audio>
+
+                    <br />
+                    <br />
+                </div>
+            )
+        })
+
+        return (
             <EstiloDiv>
-                {/* <button onClick={this.props.mudarParaPlaylist}>Editar Playlist</button> */}
-                <h1>Criar Playlists</h1>
-                <input 
-                placeholder={"Nome da Playlist"}
-                value={this.state.nome}
-                onChange={this.onChangeInput}
+                <div>
+                <h1>Criar Playlist</h1>
+                <input
+                    placeholder={"Nome da Playlist"}
+                    value={this.state.nome}
+                    onChange={this.onChangeInput}
                 />
                 <button onClick={this.criarPlaylist}>Criar</button>
-                <br/>
-                <br/>
-                <br/>
+                </div>
+                <br />
+                <br />
+                <br />
                 <h2>Playlists Criadas</h2>
                 {mostraPlaylist}
-                <br/>
+                <br />
                 {mostraFaixaPlaylist}
-                
+                <h1>Adicionar Música a playlist</h1>
+                <input
+                    placeholder={"música"}
+                    value={this.state.tituloMusica}
+                    onChange={this.onChangeTituloMusica}
+                />
+                <input
+                    placeholder={"artista"}
+                    value={this.state.artista}
+                    onChange={this.onChangeArtista}
+                />
+                <input
+                    placeholder={"url"}
+                    value={this.state.url}
+                    onChange={this.onChangeUrl}
+                />
+
             </EstiloDiv>
         )
     }
