@@ -2,23 +2,52 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-const EstiloDiv = styled.div`
+const Principal = styled.div`
 
 display: flex;
 align-items: center;
 flex-direction: column;
+font-family: Arial, Helvetica, sans-serif;
+
+input{
+  width: 250px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 3px solid #adb5bd;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+input:focus {
+  border: 3px solid #555;
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555555;
+  color: white;
+}
 `
 
-const EstiloCriarPlaylist = styled.div`
-
-border: 1px black solid;
-
-`
-
-const ListaPlaylist = styled.li`
+const Divs = styled.div`
 
 display: flex;
-justify-content: center;
+flex-direction: column;
 align-items: center;
 
 `
@@ -31,8 +60,8 @@ export default class CriarPlaylist extends React.Component {
         musicas: [],
         tituloMusica: "",
         artista: "",
-        url: ""
-
+        url: "",
+        playlistId: "",
     }
 
     componentDidMount() {
@@ -114,8 +143,6 @@ export default class CriarPlaylist extends React.Component {
             }
         }).then((resposta) => {
             this.setState({ musicas: resposta.data.result.tracks })
-
-            console.log("aqui", resposta.data)
         }).catch((erro) => {
             console.log(erro.response.data.message)
         })
@@ -136,78 +163,79 @@ export default class CriarPlaylist extends React.Component {
         }).then((resposta) => {
             console.log("resposta adiciona musica", resposta)
             alert("Música adicionada")
+            this.setState({tituloMusica: ""})
+            this.setState({artista: ""})
+            this.setState({url: ""})
             this.visualizarPlaylist()
         }).catch((erro) => {
             console.log(erro.response.data)
         })
     }
 
+    guardaId = () => {
+        this.state.playlist.map((lista) => {
+            this.state.playlistId = lista.id
+        })
+    }
+
 
     render() {
 
+        console.log(this.guardaId(), "guarda id")
+
         const mostraPlaylist = this.state.playlist.map((lista) => {
             return (
-                <div>
+                <Divs key={lista.id}>
                     {lista.name}
-                    <ListaPlaylist key={lista.id}>
+                    <div>
                         <button onClick={() => this.visualizarFaixasPlaylist(lista.id)}>Visualizar</button>
-                        <button onClick={() => this.adicionarMusicas(lista.id)}>Adicionar Música</button>
-                        <button className="deletar" onClick={() => this.deletarPlaylist(lista.id)}>Apagar</button>            
-                    </ListaPlaylist>
-                </div>
+                        <button className="deletar" onClick={() => this.deletarPlaylist(lista.id)}>Apagar</button>
+                    </div>
+                </Divs>
             )
         })
 
         const mostraFaixaPlaylist = this.state.musicas.map((faixa) => {
             return (
-                <div key={faixa.id}>
-                    <h3>{faixa.artist} - {faixa.name}</h3>
+                <Divs key={faixa.id}>
+                    <h4>{faixa.artist} - {faixa.name}</h4>
                     <audio controls>
                         <source src={faixa.url} />
                     </audio>
-
-                    <br />
-                    <br />
-                </div>
+                </Divs>
             )
         })
 
         return (
-            <EstiloDiv>
-                <div>
-                <h1>Criar Playlist</h1>
+            <Principal>
+                <h2>Criar Playlist</h2>
                 <input
                     placeholder={"Nome da Playlist"}
                     value={this.state.nome}
                     onChange={this.onChangeInput}
                 />
                 <button onClick={this.criarPlaylist}>Criar</button>
-                </div>
-                <br />
-                <br />
-                <br />
-                <h2>Playlists Criadas</h2>
+                <h3>Playlists Criadas</h3>
                 {mostraPlaylist}
-                <br />
                 {mostraFaixaPlaylist}
-                <h1>Adicionar Música a playlist</h1>
+                <h3>Adicionar Música a playlist</h3>
                 <input
-                    placeholder={"música"}
+                    placeholder={"Título da música"}
                     value={this.state.tituloMusica}
                     onChange={this.onChangeTituloMusica}
                 />
                 <input
-                    placeholder={"artista"}
+                    placeholder={"Nome do(a) artista"}
                     value={this.state.artista}
                     onChange={this.onChangeArtista}
                 />
                 <input
-                    placeholder={"url"}
+                    placeholder={"Endereço"}
                     value={this.state.url}
                     onChange={this.onChangeUrl}
                 />
-
-            </EstiloDiv>
+                <button onClick={() => this.adicionarMusicas(this.state.playlistId)}>Adicionar</button>
+            </Principal>
         )
     }
 
