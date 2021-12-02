@@ -1,58 +1,49 @@
-import react, { useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import Perfis from "./Perfis";
+import { EstiloPerfil } from "./PerfisEstilo";
 
 
 export default function EscolherPerfil(props) {
-    const [match, setMatch] = useState(true)
-    // const [naoMatch, setNaoMatch] = useState("")
+    const [curtida, setCurtida] = useState(false)
 
-    // const matchBotao = () => {
-    //     setMatch(true)
-    //     console.log("match", match)
-    // }
-
-    // const naoMatchBotao = () => {
-    //     setMatch(false)  
-    //     console.log("não match", match)
-       
-    // }
-
-    const match1 = () => {
-
+    const match = () => {
         const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/desatinar/choose-person"
         let body = {
             "id": props.id,
-            "choice": match
+            "choice": curtida
         }
         axios.post(url, body)
             .then((resposta) => {
                 console.log(resposta.data, "resposta api")
 
             }).catch((erro) => {
-                console.log(erro.response)
+                console.log(erro, "reposta api erro")
+                
             })
+    }
 
-            console.log(match, "match estado")
+    const coracao = () => {
+        setCurtida(true)
+        match()
+    }
+
+    const naoCoracao = () => {
+        setCurtida(false)
+        match()      
     }
 
     useEffect(() => {
 
-        match1()
+    }, [curtida, console.log(curtida, "match estado")])
 
-       
-    }, [match, console.log(match, "console.log")])
 
-    
-
-return (
-        <div onClick={props.mostraPerfis}>
-            <Perfis match1={match1}/>
-            <button onClick={() => setMatch(false)}>x</button>
-            <button onClick={() => setMatch(true)}>o</button>
-        </div>
-        
+    return (
+            <div onClick={props.mostraPerfis}>
+                <button onClick={() => naoCoracao()}>x</button>
+                <button onClick={() => coracao()}>o</button>
+            </div>
     )
 
 }
