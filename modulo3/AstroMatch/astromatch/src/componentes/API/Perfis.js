@@ -5,7 +5,7 @@ import {EstiloPerfil} from "./PerfisEstilo"
 import EscolherPerfil from "./EscolherPerfil";
 
 
-export default function Perfis() {
+export default function Perfis(props) {
     const [nome, setNome] = useState("")
     const [idade, setIdade] = useState("")
     const [foto, setFoto] = useState("")
