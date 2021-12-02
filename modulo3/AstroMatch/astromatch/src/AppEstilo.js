@@ -11,6 +11,7 @@ height: 50vh;
 width: 15vw;
 align-items: center;
 justify-content: space-evenly;
+margin-left: 50vw;
 
 /* img{
     height: 4vh;

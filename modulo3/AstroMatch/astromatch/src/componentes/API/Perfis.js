@@ -3,8 +3,6 @@ import axios from "axios";
 import { useState } from "react";
 import {EstiloPerfil} from "./PerfisEstilo"
 import EscolherPerfil from "./EscolherPerfil";
-import { BotaoEscolherPerfil } from "./EscolherPerfilEstilo";
-
 
 
 export default function Perfis() {
@@ -13,13 +11,13 @@ export default function Perfis() {
     const [foto, setFoto] = useState("")
     const [bio, setBio] = useState("")
     const [id, setId] = useState("")
+    const [proximo, setProximo] = useState(0)
 
-    function refreshPage(){
-        window.location.reload();
-    } 
-    
-    useEffect(() => {
+    const passarPerfil = () => {
+        setProximo(proximo+1)
+    }
 
+    const mostraPerfis = () =>{
         const url = `https://us-central1-missao-newton.cloudfunctions.net/astroMatch/desatinar/person`
 
         axios.get(url)
@@ -34,6 +32,14 @@ export default function Perfis() {
                 console.log(erro.response.data, "erro")
             })
 
+    }
+
+
+    useEffect(() => {
+
+        mostraPerfis()
+
+       
     }, [])
 
     return (
@@ -42,10 +48,7 @@ export default function Perfis() {
             <strong>{nome},</strong>
             {idade}
             <p>{bio}</p>
-            <button type="submit" onClick={refreshPage}>Refresh Button</button>
-            <BotaoEscolherPerfil />
-            <EscolherPerfil id={id}/>
-            
+            <EscolherPerfil id={id} mostraPerfis={mostraPerfis}/>             
         </EstiloPerfil>
     )
 }
