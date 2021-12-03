@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import { EstiloPerfil } from "./PerfisEstilo"
+import { EstiloPerfil, BotaoReiniciar, Container } from "./PerfisEstilo"
 import EscolherPerfil from "./EscolherPerfil";
 import Matches from "./Matches";
+import App from "../../App";
 
 
 export default function Perfis() {
@@ -35,10 +36,11 @@ export default function Perfis() {
         const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/desatinar/clear"
 
         axios.put(url)
-            .then((resposta) =>{
+            .then((resposta) => {
                 setResetar(resposta)
                 console.log(resposta, "reinicia perfil")
                 alert("Perfis reiniciados")
+                mostraPerfis()
             })
             .catch((erro) => {
                 console.log(erro)
@@ -52,13 +54,16 @@ export default function Perfis() {
     }, [])
 
     return (
-        <EstiloPerfil>
-            <img src={foto} />
-            <strong>{nome},</strong>
-            {idade}
-            <p>{bio}</p>
+        <div>
+            <Matches reiniciaPerfis={reiniciaPerfis} />
+            <Container fundo={foto} nome={nome} bio={bio}>
+                {/* <img src={foto}/> */}
+                {/* <img className="imagem-fundo" src={foto} /> */} 
+                <h2>{nome}, {idade}</h2>
+                <h4>{bio}</h4> 
+            </Container>
             <EscolherPerfil id={id} mostraPerfis={mostraPerfis} />
-            <button onClick={reiniciaPerfis}>reiniciar</button>
-        </EstiloPerfil>
+    
+        </div>
     )
 }

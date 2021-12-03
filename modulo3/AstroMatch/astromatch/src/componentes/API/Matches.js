@@ -1,9 +1,11 @@
 import react, { useState } from "react";
 import axios from "axios";
 import { MatchesEstilo } from "./MatchesEstilo";
+import chat from "../img/chat.png"
+import Perfis from "./Perfis";
 
 
-export default function Matches() {
+export default function Matches(props) {
     const [guardaMatches, setGuardaMatches] = useState([])
 
     const matchesMapeados = guardaMatches.map((match) =>{
@@ -28,11 +30,16 @@ export default function Matches() {
     }
 
     return (
-        <MatchesEstilo key={matchesMapeados.id}>
+     
+        <MatchesEstilo key={matchesMapeados.id}>  
+            <button className="botão-reiniciar" onClick={props.reiniciaPerfis}>
+                reiniciar
+                </button>
             <button onClick={mostraMatches}>
-                matches
+                <img src={chat} />
             </button>
             {matchesMapeados}
         </MatchesEstilo>
+      
     )
 }

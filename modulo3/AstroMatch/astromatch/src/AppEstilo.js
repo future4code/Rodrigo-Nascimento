@@ -1,23 +1,18 @@
 import styled from "styled-components";
 
+const AppEstilo = styled.div`
 
 
-const EstiloContainer = styled.div`
 
 display: flex;
 flex-direction: column;
-border: 2px solid black;
-height: 50vh;
-width: 15vw;
 align-items: center;
-justify-content: space-evenly;
-margin-left: 50vw;
-
-/* img{
-    height: 4vh;
-    width: 3vw;
-} */
-
+/* border: 100px solid green; */
+border: 1px solid black;
+background-color: white;
+/* width: 50vw; */
+/* height: 40vh; */
+margin: 20vh;
 `
 
-export default EstiloContainer
+export default AppEstilo

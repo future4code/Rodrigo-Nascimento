@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import Perfis from "./Perfis";
-import { EstiloPerfil } from "./PerfisEstilo";
+import like from "../img/like.png"
+import dislike from "../img/dislike.png"
+import { EscolherPerfilEstilo } from "./EscolherPerfilEstilo";
 
 
 export default function EscolherPerfil(props) {
@@ -19,8 +20,7 @@ export default function EscolherPerfil(props) {
                 console.log(resposta.data, "resposta api")
 
             }).catch((erro) => {
-                console.log(erro, "reposta api erro")
-                
+                console.log(erro, "reposta api erro")             
             })
     }
 
@@ -36,14 +36,16 @@ export default function EscolherPerfil(props) {
 
     useEffect(() => {
 
+        match()
+
     }, [curtida, console.log(curtida, "match estado")])
 
 
     return (
-            <div onClick={props.mostraPerfis}>
-                <button onClick={() => naoCoracao()}>x</button>
-                <button onClick={() => coracao()}>o</button>
-            </div>
+            <EscolherPerfilEstilo onClick={props.mostraPerfis}>
+                <button onClick={() => coracao()}><img src={like} /></button>
+                <button onClick={() => naoCoracao()}><img src={dislike} /></button>
+            </EscolherPerfilEstilo>
     )
 
 }

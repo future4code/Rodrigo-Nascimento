@@ -1,16 +1,21 @@
 import styled from "styled-components";
 
-export const BotaoEscolherPerfil = styled.div`
+
+
+export const EscolherPerfilEstilo = styled.div`
 
 display: flex;
-justify-content: center;
+justify-content: space-evenly;
+border: 2px solid black;
+background-color: #F1FAEE;
 
-
-img{
-    width: 50px;
-    height: 50px;
-
+button{
+    background-color: transparent;
+    border: none
 }
 
-
+img{
+    width: 45px;
+    height: 45px;
+}
 `
