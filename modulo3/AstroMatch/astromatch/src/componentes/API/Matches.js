@@ -1,18 +1,17 @@
-import react, { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { MatchesEstilo } from "./MatchesEstilo";
-import chat from "../img/chat.png"
-import Perfis from "./Perfis";
 
 
-export default function Matches(props) {
+export default function Matches() {
     const [guardaMatches, setGuardaMatches] = useState([])
 
-    const matchesMapeados = guardaMatches.map((match) =>{
+    const matchesMapeados = guardaMatches.map((match) => {
         return (
             <div>
-                <img src={match.photo} />
-                <strong>{match.name}</strong>    
+                <img src={match.photo} alt="imagem do perfil" />
+                {match.name}
             </div>
         )
     })
@@ -22,24 +21,21 @@ export default function Matches(props) {
 
         axios.get(url)
             .then((resposta) => {
-                console.log(resposta.data.matches)
                 setGuardaMatches(resposta.data.matches)
             }).catch((erro) => {
-                console.log(erro)
             })
     }
 
+    useEffect(() => {
+
+        mostraMatches()
+
+    }, [])
+
     return (
-     
-        <MatchesEstilo key={matchesMapeados.id}>  
-            <button className="botão-reiniciar" onClick={props.reiniciaPerfis}>
-                reiniciar
-                </button>
-            <button onClick={mostraMatches}>
-                <img src={chat} />
-            </button>
+       
+        <MatchesEstilo key={Date.now()}>          
             {matchesMapeados}
         </MatchesEstilo>
-      
     )
 }

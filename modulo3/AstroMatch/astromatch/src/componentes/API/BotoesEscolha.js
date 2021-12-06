@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import like from "../img/like.png"
 import dislike from "../img/dislike.png"
-import { EscolherPerfilEstilo } from "./EscolherPerfilEstilo";
+import { BotoesEscolhaEstilo } from "./BotoesEscolhaEstilo";
 
 
 export default function EscolherPerfil(props) {
@@ -17,10 +17,7 @@ export default function EscolherPerfil(props) {
         }
         axios.post(url, body)
             .then((resposta) => {
-                console.log(resposta.data, "resposta api")
-
-            }).catch((erro) => {
-                console.log(erro, "reposta api erro")             
+            }).catch((erro) => {           
             })
     }
 
@@ -38,14 +35,14 @@ export default function EscolherPerfil(props) {
 
         match()
 
-    }, [curtida, console.log(curtida, "match estado")])
+    }, [curtida])
 
 
     return (
-            <EscolherPerfilEstilo onClick={props.mostraPerfis}>
-                <button onClick={() => coracao()}><img src={like} /></button>
-                <button onClick={() => naoCoracao()}><img src={dislike} /></button>
-            </EscolherPerfilEstilo>
+            <BotoesEscolhaEstilo onClick={props.mostraPerfis}>
+                <button onClick={() => coracao()}><img src={like} alt="botão curtir" /></button>
+                <button onClick={() => naoCoracao()}><img src={dislike} alt="botão não curtir"/></button>
+            </BotoesEscolhaEstilo>
     )
 
 }

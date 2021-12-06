@@ -3,32 +3,20 @@ import styled from "styled-components";
 export const MatchesEstilo = styled.div`
 
 display: flex;
-justify-content: space-evenly;
-border: 2px black solid;
-border-radius: 15px;
-background-color: #F1FAEE;
-
-button{
-    background-color: transparent;
-    border: none;
- 
-}
-
-.botão-reiniciar{
-background: red;
-color: #fff;
-border: 0.16em solid rgba(255,255,255,0);
-border-radius: 2em;
-
-:hover {
-  background: #c0392b;
-}
-
-}
+flex-direction: column;
+align-items: flex-start;
+background-size: 100% 100%;
+background-color: #edf6f9;
+width: 300px;
+height: 446px;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+border-radius: 0 0 15px 15px;
 
 img{
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 40px;
+  margin-left: 10px;
 }
 
 `
