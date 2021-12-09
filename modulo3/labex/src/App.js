@@ -19,12 +19,12 @@ function App() {
 
         <Route exact path="/" element={<HomePage/>}/>
         <Route exact path="/trips/list" element={<ListTripsPage/>}/>
-        <Route exact path="/trips/application" element={<TripDetailsPage/>}/>
+        <Route exact path="/trips/application" element={<ApplicationFormPage/>}/>
         <Route exact path="/login" element={<LoginPage/>}/>
         <Route exact path="/admin/trips/list" element={<AdminHomePage/>}/>
-        <Route exact path="/admin/trips/create" element={<TripDetailsPage/>}/>
-        <Route exact path="/admin/trips/desatinar" element={<CreateTripPage/>}/>
-       
+        <Route exact path="/admin/trips/create" element={<CreateTripPage/>}/>
+        <Route exact path="/admin/trips/:id" element={<TripDetailsPage/>}/>
+        CreateTripPage
       </Routes>
     </Router>
 
