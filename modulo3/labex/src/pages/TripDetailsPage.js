@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
+import { useProtectedPage } from "../hooks/useProtectedPage";
 
 export default function TripDetailsPage (){
+
+    useProtectedPage()
 
 
     const goToLoginPage = () => {
@@ -11,14 +14,6 @@ export default function TripDetailsPage (){
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        
-        const token = localStorage.getItem("token")
-        if (token === null) {
-            return navigate("/login")
-        }
-
-    }, [])
 
 
     useEffect(() => {

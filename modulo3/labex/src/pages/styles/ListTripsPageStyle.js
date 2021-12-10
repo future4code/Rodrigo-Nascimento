@@ -25,3 +25,9 @@ margin-top: 12vh;
 margin-left: 3vw;
 
 `
+
+export const Div2 = styled.div`
+
+background-color: black;
+
+`

@@ -1,20 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useProtectedPage } from "../hooks/useProtectedPage";
 
 export default function AdminHomePage (){
 
-    const navigate = useNavigate()
+    useProtectedPage()
 
-    useEffect(() => {
-        
-        const token = localStorage.getItem("token")
-        if (token === null) {
-            console.log("não logado no admin home")
-            return navigate("/login")
-        }
-
-    }, [])
     return(
         <div>
             AdminHomePage
