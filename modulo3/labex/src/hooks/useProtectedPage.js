@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 export const useProtectedPage = () => {
 
-    
     const navigate = useNavigate()
 
     useEffect(() => {

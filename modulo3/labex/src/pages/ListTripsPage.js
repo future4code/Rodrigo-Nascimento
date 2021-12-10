@@ -5,11 +5,8 @@ import { Header } from "./styles/HomePageStyle";
 import { useNavigate } from "react-router-dom"
 import { Cards, Div, Div2 } from "./styles/ListTripsPageStyle";
 import { Button } from "./styles/Button";
-import axios from "axios";
 import useRequestData from "../hooks/useRequestData";
 import { Base_Url } from "../constants/Base_Url";
-
-
 
 export default function ListTripsPage() {
  
