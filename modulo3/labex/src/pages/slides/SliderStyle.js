@@ -28,7 +28,7 @@ export const SliderStyled = styled.section`
     top:50%;
     right: -25%;
     font-size: 3rem;
-    color: black;
+    color: white;
     z-index: 10;
     cursor: pointer;
     user-select: none;
@@ -39,7 +39,7 @@ export const SliderStyled = styled.section`
     top:50%;
     left: -25%;
     font-size: 3rem;
-    color: black;
+    color: white;
     z-index: 10;
     cursor: pointer;
     user-select: none;

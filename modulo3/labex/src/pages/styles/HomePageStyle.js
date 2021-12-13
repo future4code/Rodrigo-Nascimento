@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import fundo from "../home/img/fundo.jpg"
+
 
 export const HomePageStyle = styled.div`
 *{
@@ -10,6 +10,8 @@ export const HomePageStyle = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
+font-family:'Roboto',sans-serif;
+
 
 img{
     height: 85vh;
@@ -33,15 +35,8 @@ width: 100%;
 display: flex;
 justify-content: space-between;
 align-items: center;
+background-color: white;
 
-.botão-home{
-    
-    background-color: transparent;
-    color:black;
-    border: none;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
-}
 
 `
 

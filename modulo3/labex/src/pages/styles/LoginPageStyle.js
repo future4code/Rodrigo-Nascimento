@@ -1,7 +1,33 @@
 import styled from "styled-components";
+import estrelas from "../home/img/estrelas.jpg"
 
-export const Button = styled.button`
+export const ContainerLogin = styled.div`
 
+.botão-enviar{
+
+background-color: white;
+color: black
+}
+
+h2{
+    color: white;
+    margin-top: 10vh;
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Roboto',sans-serif;
+}
+
+background: url(${estrelas}) ;
+background-size: cover;
+width:100%;
+height: 97.8vh;
+background-repeat: no-repeat;
+
+button{
 display: inline-block;
 padding: 0.35em 1.2em;
 border: 0.1em solid #FFFFFF;

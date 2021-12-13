@@ -3,9 +3,10 @@ import { useProtectedPage } from "../hooks/useProtectedPage";
 import useRequestData from "../hooks/useRequestData";
 import { Base_Url } from "../constants/Base_Url";
 import { useState } from "react";
-import {header} from "../constants/Base_Url"
-import axios from "axios";
-import Swal from "sweetalert2";
+import TripDetailsPage from "./TripDetailsPage"
+import { useNavigate } from "react-router-dom"
+import { Header } from "./styles/HomePageStyle";
+import { Button } from "./styles/Button";
 
 export default function AdminHomePage() {
     const [trip] = useRequestData(`${Base_Url}/trips`)
@@ -13,53 +14,38 @@ export default function AdminHomePage() {
 
     useProtectedPage()
 
-    const deleteTrip = () => {
-       
-        axios.delete(`${Base_Url}/trips/${id}`, header)
-            .then((response) => {
-                Swal.fire(
-                    'Sucesso',
-                    'Viagem deletada!',
-                    'success'
-                  )
-                console.log("resposta positiva", response.data)
-            }).catch((err) => {
-                console.log(err.response.message, "resposta errada")
-            })
-        }
+    const navigate = useNavigate()
+
+    const goToAdminCreatePage = () => {
+        navigate("/admin/trips/create")
+    }
 
     const mapId = trip && trip.map((trip) => {
-        
+
         return (
             <div key={trip.id} onClick={() => setId(trip.id)}>
                 {trip.name}
-                <button onClick={deleteTrip}>deletar</button>
-                {console.log("id no map", id)}
+                <TripDetailsPage id={trip.id} trip={trip} />
             </div>
         )
     })
 
-    console.log(id, "id id id")
-
-    
     return (
         <div>
-            Painel administrativo
-            <button>
-                voltar
-            </button>
-            <button>
-                criar viagem
-            </button>
-            <button>
-                logout
-            </button>
+            <Header>
+                <Button onClick={() => navigate(-1)}>
+                    Voltar
+                </Button>
+                <Button onClick={goToAdminCreatePage}>
+                    Criar Viagem
+                </Button>
+                <h1> LabeX</h1>
+            </Header>
+            <h2>Painel administrativo</h2>
             <div>
-                trips
-                <div>   
-                    {mapId}            
-                </div>      
+                {mapId}
             </div>
         </div>
+
     )
 }

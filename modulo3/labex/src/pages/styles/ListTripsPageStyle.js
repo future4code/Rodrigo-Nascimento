@@ -16,18 +16,26 @@ background-image: url(${fundo});
 background-repeat: no-repeat;
 background-size: cover;
 color: white;
+box-shadow: 0 0 0.5em white;
+
+p{
+    margin-left: 1.5vw;
+    font-size: 0.9em ;
+}
 
 `
 
-export const Div = styled.div`
+export const DivCards = styled.div`
 
 margin-top: 12vh;
 margin-left: 3vw;
 
 `
 
-export const Div2 = styled.div`
+export const Background = styled.div`
 
 background-color: black;
+font-family:'Roboto',sans-serif;
+
 
 `

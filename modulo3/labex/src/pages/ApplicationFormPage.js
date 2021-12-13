@@ -6,12 +6,24 @@ import useRequestData from "../hooks/useRequestData";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useForm from "../hooks/useForm";
+import { Header } from "./styles/HomePageStyle";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./styles/Button";
+import { Container, Formulario } from "./styles/ApplicationFormPageStyle";
+
 
 
 export default function ApplicationFormPage() {
-    const { form, onChange, cleanFields } = useForm({ name: "", age: "", applicationText: "", profession: "", country: ""})
+    const { form, onChange, cleanFields } = useForm({ name: "", age: "", applicationText: "", profession: "", country: "" })
     const [trip] = useRequestData(`${Base_Url}/trips`)
     const [tripId, setTripId] = useState("")
+
+
+    const navigate = useNavigate()
+
+    const goToHomePage = () => {
+        navigate("/")
+    }
 
     const mapCountries = Countries.map((country) => {
         return (
@@ -28,21 +40,21 @@ export default function ApplicationFormPage() {
     const onChangeSelect = (event) => {
         setTripId(event.target.value)
     }
-    
+
     const applyToTrip = (body) => {
-       
+
         axios.post(`${Base_Url}/trips/${tripId}/apply`, body)
             .then((response) => {
                 Swal.fire(
                     'Sucesso',
                     'Aplicação enviada!',
                     'success'
-                  )
+                )
                 console.log("resposta positiva", response.data)
             }).catch((err) => {
                 console.log(err.response.message, "resposta errada")
             })
-        }
+    }
 
     const sendForm = (event) => {
         event.preventDefault()
@@ -52,15 +64,18 @@ export default function ApplicationFormPage() {
     }
 
     return (
-        <div>
-            ApplicationFormPage
-            <form onSubmit={sendForm}>
+        <Container>
+            <Header>
+                <Button onClick={() => navigate(-1)}>Voltar</Button>
+                <Button onClick={goToHomePage}>Home</Button>
+                <h1>LabeX</h1>
+            </Header>
+            <h2>Formulário de Inscrição</h2>
+            <Formulario onSubmit={sendForm}>
                 <select
-                    onChange={onChangeSelect}
-                >
-                    <option>Selecione uma opção</option>
+                    onChange={onChangeSelect}>
+                    <option>Selecione um destino:</option>
                     {mapId}
-
                 </select>
                 <input
                     name="name"
@@ -106,14 +121,14 @@ export default function ApplicationFormPage() {
                     onChange={onChange}
                     name="country"
                 >
+                    <option>
+                        País:
+                    </option>
                     {mapCountries}
                 </select>
                 <button >Enviar</button>
-
-            </form>
-        </div>
-
-
+            </Formulario>
+        </Container>
     )
 }
 

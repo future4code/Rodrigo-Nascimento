@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# LabeX
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Projeto LabeX foi feito com o intuito de simular um site de vendas espaciais.
 
-## Available Scripts
+### Funcionalidades
 
-In the project directory, you can run:
+- Ver viagens: leva o usuário para página com cards de viagens disponíveis e uma galeria de fotos;
+- O usuário é capaz de se candidatar a viagens oferecidas através de um formulário;
+- Login Administrativo, levando a área administrativa onde é possível deletar viagens, criar viagens (formulário) e ver detalhes das viagens;
 
-### `npm start`
+### Tecnologias Utilizadas:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React
+- Axios
+- Styled components
+- SweetAlert2
+- API LabeX
+- Custom Hooks
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Surge 
 
-### `npm test`
+cloistered-brush.surge.sh
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### O que funciona
 
-### `npm run build`
+- Botões de navegação / troca de páginas;
+- Rederização de cards na lista de viagens;
+- Formulário de inscrição pública;
+- Login;
+- Criar viagem;
+- Ver detalhes e deletar o card das viagens na área administrativa.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### O que não funciona
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Mudar para página de detalhes no painel administrativo;
+- Função de aprovar / reprovar candidatos.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Possíveis ajustes
 
-### `npm run eject`
+- Ajustes na área administrativa;
+- Animação ou aviso em todas as páginas.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
