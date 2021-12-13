@@ -19,7 +19,7 @@ Projeto LabeX foi feito com o intuito de simular um site de vendas espaciais.
 
 ### Surge 
 
-cloistered-brush.surge.sh
+merciful-memory.surge.sh
 
 ### O que funciona
 
