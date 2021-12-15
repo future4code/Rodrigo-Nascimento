@@ -1,6 +1,13 @@
 import React from "react";
 
+import { usePaginaProtegida } from "../../hooks/usePaginaProtegida";
+
+
 const PaginaFeedPostagem = () => {
+
+    usePaginaProtegida()
+
+ 
     return(
 
         <div>

@@ -1,6 +1,9 @@
 import React from "react";
+import { usePaginaProtegida } from "../../hooks/usePaginaProtegida";
 
 const PaginaPostComentario = () => {
+    usePaginaProtegida()
+    
     return(
 
         <div>

@@ -1,12 +1,18 @@
 import React from "react";
+import FormularioCadastro from "./FormularioCadastro";
+import { ContainerPagCadastro, ImagemLogo } from "./styled";
+import logoLabreddit from "../../recursos/img/logoLabreddit.png"
+import { usePaginaLogado } from "../../hooks/usePaginaLogado";
 
 const PaginaCadastro = () => {
+    usePaginaLogado()
+
     return(
 
-        <div>
-            <h1>Página Cadastro</h1>
-        </div>
-
+        <ContainerPagCadastro>
+            <ImagemLogo src={logoLabreddit}/>
+            <FormularioCadastro/>
+        </ContainerPagCadastro>
     )
 }
 
