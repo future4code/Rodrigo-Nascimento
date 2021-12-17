@@ -13,11 +13,3 @@ export const irParaFeed = (navigate) => {
 export const irParaFeedPostagem = (navigate, id) => {
     navigate(`/feed/${id}`)
 }
-
-export const irParaPost = (navigate) => {
-    navigate("/post")
-}
-
-export const irParaPostComentario = (navigate, id) => {
-    navigate(`/post/${id}`)
-}

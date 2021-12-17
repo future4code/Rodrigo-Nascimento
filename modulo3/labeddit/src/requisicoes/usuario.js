@@ -7,7 +7,6 @@ export const login = (body, clear, navigate) => {
 
     axios.post(`${BASE_URL}/users/login`, body)
         .then((res) => {
-            console.log(res)
             localStorage.setItem("token", res.data.token)
             clear()
             irParaFeed(navigate)
@@ -22,7 +21,6 @@ export const cadastro = (body, clear, navigate) => {
 
     axios.post(`${BASE_URL}/users/signup`, body)
         .then((res) => {
-            console.log(res)
             localStorage.setItem("token", res.data.token)
             clear()
             irParaFeed(navigate)

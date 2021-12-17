@@ -56,8 +56,6 @@ const FormularioCadastro = () => {
                         type={"password"}
                         size="small"
                     />
-                   
-
                     <Button type={"submit"} variant="contained" fullWidth>Cadastrar</Button>
                 </form>       
             </ContainerFormulario>

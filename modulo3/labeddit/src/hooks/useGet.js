@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useGet = (url) => {
-    const [data, setData] = useState([])
-    // const [isLoading, setIsLoading] = useState(false)
+const useGet = (initialState, url) => {
+    const [data, setData] = useState(initialState)
+    const [isLoading, setIsLoading] = useState(false)
     // const [error, setError] = useState("")
 
     useEffect(() => {
-        // setIsLoading(true)
+        setIsLoading(true)
       
         axios.get(url, {
             headers: {
@@ -15,17 +15,18 @@ const useGet = (url) => {
             }
         })
             .then((res) => {
-                // setIsLoading(false)
+                setIsLoading(false)
+                console.log(res.data, "isso vem do get")
                 setData(res.data)
             }).catch((err) => {
-                // setIsLoading(false)
+                setIsLoading(false)
                 // setError(err)
                 console.log(err.response, "resposta errada")
 
             })
     }, [url])
 
-    return [data]
+    return [data, isLoading]
         // , isLoading, error]
 
 }
