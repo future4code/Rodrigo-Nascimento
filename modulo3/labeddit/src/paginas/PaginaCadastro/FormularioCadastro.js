@@ -13,7 +13,6 @@ const FormularioCadastro = () => {
     const enviarCadastro = (event ) => {
         event.preventDefault()
         cadastro(form, clear, navigate)
-
     }
 
     return (
@@ -58,9 +57,7 @@ const FormularioCadastro = () => {
                     />
                     <Button type={"submit"} variant="contained" fullWidth>Cadastrar</Button>
                 </form>       
-            </ContainerFormulario>
-        
+            </ContainerFormulario>  
     )
 }
-
 export default FormularioCadastro

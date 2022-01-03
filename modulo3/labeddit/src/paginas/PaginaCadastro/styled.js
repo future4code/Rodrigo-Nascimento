@@ -16,14 +16,14 @@ flex-direction: column;
 width: 80vw;
 max-width: 450px;
 align-items: center;
-margin-bottom: 20px
+margin-bottom: 20px;
 
 `
 
 export const ContainerCadastro = styled.div`
 
 width: 80vw;
-max-width: 450px
+max-width: 450px;
 
 `
 

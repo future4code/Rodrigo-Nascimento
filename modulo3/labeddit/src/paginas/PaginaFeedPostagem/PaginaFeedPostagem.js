@@ -1,93 +1,122 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../constantes/urls";
 import useGet from "../../hooks/useGet";
 import { usePaginaProtegida } from "../../hooks/usePaginaProtegida";
-import PaginaFeed from "../PaginaFeed/PaginaFeed";
-import { criaComentario } from "../../requisicoes/posts"
+import { criaComentario } from "../../requisicoes/posts";
 import useForm from "../../hooks/useForm";
-import { Button } from "@mui/material";
-import { TextField } from "@mui/material";
-import axios from "axios";
-import CriaComentario from "../../requisicoes/comentarios";
-
-
+import { Button, CardActions } from "@mui/material";
+import { InputPost, ContainerEnviar } from "./styled";
+import { CartaoPost } from "./styled";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { ArrowDownwardRounded, ArrowUpwardRounded } from "@material-ui/icons";
 
 
 const PaginaFeedPostagem = () => {
-    usePaginaProtegida()
+  usePaginaProtegida()
 
-    const params = useParams()
-    const [form, onChange, clear] = useForm({body: ""})
-    const navigate = useNavigate()
-    const [comentarios, isLoading] = useGet([], `${BASE_URL}/posts/${params.id}/comments`)
-    const [novoComentario, setNovoComentario] = useState([])
+  const params = useParams();
+  const [form, onChange, clear] = useForm({ body: "" })
+  const [comentarios, getPostagens, isLoading] = useGet([],`${BASE_URL}/posts/${params.id}/comments`)
+  const [postId] = useGet([], `${BASE_URL}/posts/`)
 
-
-
-    
-        const comentariosMap = comentarios && comentarios.map((coment) =>{
-            return( 
-                <div>
-                    {coment.body}
-                    {coment.username}
-                </div>
-            )
-        })
-        
-   
-        console.log(novoComentario, "isso é o novo comentário")
-    
-        
-
-    
-
-    const teste = () => {
-        console.log("abrobrinha")
-        
-
+  const postMap = postId.map((post) => {
+    if (post.id === params.id) {
+      return (
+        <CartaoPost key={post.id}>
+          <Card sx={{ width: 375 }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {post.title}
+                <Typography variant="h5" component="div">
+                  {post.body}
+                </Typography>
+              </Typography>
+              <Typography variant="body2">{post.username}</Typography>
+            </CardContent>
+            <IconButton size="small" >
+              <ArrowUpwardRounded />
+            </IconButton>
+            <IconButton size="small">{post.voteSum}</IconButton>
+            <IconButton size="small" >
+              <ArrowDownwardRounded />
+            </IconButton>
+          </Card>
+        </CartaoPost>
+      )
     }
-    
-    const enviarComentario = (event) => {
-        event.preventDefault()
-        criaComentario(params, form, clear, navigate)
-       
-        
-    }
-    
-    
+  })
 
-    
+  const comentariosMap =
+    comentarios &&
+    comentarios.map((coment) => {
+      return (
+        <CartaoPost key={coment.id}>
+          <Card sx={{ width: 275 }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {coment.username}
+              </Typography>
+              <Typography variant="body2">{coment.body}</Typography>
+            </CardContent>
+            <CardActions>
+              <IconButton size="small" >
+                <ArrowUpwardRounded />
+              </IconButton>
+              <IconButton size="small">{coment.voteSum}</IconButton>
+              <IconButton size="small" >
+                <ArrowDownwardRounded />
+              </IconButton>
+            </CardActions>
+          </Card>
+        </CartaoPost>
+      )
+    })
 
-    // const comentariosMap = 
+  const enviarComentario = (event) => {
+    event.preventDefault();
+    criaComentario(params, form, clear, getPostagens);
+  }
 
-    return (
-
-        <div>
-            {isLoading && <p>Carregando...</p>}
-            {!isLoading && comentarios.length > 0 && comentariosMap}
-            {/* {comentariosMap} */}
-            {/* {novoComentario} */}
-            {novoComentario}
-
-            <form onSubmit={enviarComentario}>
-                <TextField
-                    variant={"outlined"}
-                    name={"body"}
-                    value={form.body}
-                    onChange={onChange}
-                    label="Comentário"
-                    // required
-                    // fullWidth
-                    margin="dense"
-                    size="small"
-                />
-                <Button onClick={teste}type={"submit"} color="secundary" variant="contained">Comentar</Button>
-            </form>
-          
-        </div>
-
-    )
+  return (
+    <ContainerEnviar>
+      {postMap}
+      {isLoading && <p>Carregando...</p>}
+      {!isLoading && comentarios.length > 0 && comentariosMap}
+      <form onSubmit={enviarComentario}>
+        <InputPost
+          variant={"outlined"}
+          name={"body"}
+          value={form.body}
+          onChange={onChange}
+          label="Comentário"
+          required
+          margin="dense"
+          size="small"
+        />
+        <Button
+          type={"submit"}
+          color="secundary"
+          variant="contained"
+          size="small"
+          fullWidth="true"
+        >
+          Comentar
+        </Button>
+      </form>
+    </ContainerEnviar>
+  )
 }
 
-export default PaginaFeedPostagem
+export default PaginaFeedPostagem;

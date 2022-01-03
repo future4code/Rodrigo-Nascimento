@@ -4,7 +4,6 @@ import { ContainerFormulario } from "./styled";
 import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../requisicoes/usuario";
-import { irParaFeed } from "../../rotas/coordenadas";
 
 const FormularioLogin = () => {
     const [form, onChange, clear]  = useForm({ email: "", password: "" })
@@ -48,7 +47,6 @@ const FormularioLogin = () => {
                     <Button type={"submit"} variant="contained" fullWidth>Entrar</Button>
                 </form>       
             </ContainerFormulario>
-        
     )
 }
 

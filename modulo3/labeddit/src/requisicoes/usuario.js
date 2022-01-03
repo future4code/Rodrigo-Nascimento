@@ -12,7 +12,7 @@ export const login = (body, clear, navigate) => {
             irParaFeed(navigate)
         })
         .catch((err) => {
-            alert(err.response.message)
+            alert("Ocorreu um erro")
         })
 
 }
@@ -26,7 +26,7 @@ export const cadastro = (body, clear, navigate) => {
             irParaFeed(navigate)
         })
         .catch((err) => {
-            console.log(err)
+            alert("Ocorreu um erro")
         })
 
 }

@@ -14,9 +14,7 @@ import { BASE_URL } from "../constantes/urls"
             }
         })
             .then((res) => {
-                console.log("postado", res)
-             
-                
+                 
             })
     }, [])
 

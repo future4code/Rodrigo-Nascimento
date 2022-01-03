@@ -12,7 +12,6 @@ export const usePaginaProtegida = () => {
         if (token === null) {
            irParaLogin(navigate)
         }
-
     }, [navigate])
 
 }

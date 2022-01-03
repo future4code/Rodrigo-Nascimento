@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import Card from "@mui/material/Card";
-import { Fab } from "@mui/material";
+import { Fab, TextField } from "@mui/material";
 
 export const ContainerPaginaFeed = styled.div`
 
@@ -8,7 +7,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 margin: 30px;
-
 `
 
 export const CartaoDePostagem = styled.div`
@@ -18,7 +16,6 @@ flex-direction: column;
 align-items: center;
 max-width: 345px;
 margin: 10px auto;
-text-align: left;
 
 `
 
@@ -34,5 +31,12 @@ z-index: 3;
 export const ContainerFormulario = styled.div`
 
 display: flex;
+
+`
+
+export const InputPostagem = styled(TextField)`
+
+display: flex;
+
 
 `

@@ -11,7 +11,6 @@ export const usePaginaLogado = () => {
         if (token) {
             navigate("/feed")
         }
-
     }, [navigate])
 
 }
