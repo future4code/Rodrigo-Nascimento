@@ -79,6 +79,12 @@ const posts: UserPosts[] = [
     title: "terceiro post",
     body: "testando o terceiro post",
     userId: 3
+  },
+  {
+    id: 4,
+    title: "quarto post",
+    body: "testando o quarto post",
+    userId: 3
   }
 ]
 
