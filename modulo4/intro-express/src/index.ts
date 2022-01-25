@@ -93,8 +93,8 @@ app.get("/posts", (req, res) => {
 })
 
 
-app.get("/posts/:id", (req, res) => {
-  const id = Number(req.params.id)
+app.get("/posts/:userId", (req, res) => {
+  const id = Number(req.params.userId)
 
   const postsFilter = posts.filter((post) => {
     if (post.userId === id) {
