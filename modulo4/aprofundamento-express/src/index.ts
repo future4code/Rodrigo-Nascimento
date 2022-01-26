@@ -64,12 +64,12 @@ app.post("/criar", (req: Request, res: Response) => {
 
 app.post("/tarefas/editar", (req: Request, res: Response) => {
   const taskId = Number(req.query.id)
-  const guardaInfo = []
+  const saveInfo = []
 
   const filterTask = toDos.filter((task) =>{
     if(task.id === taskId){
       task.completed = !task.completed
-      return guardaInfo.push(task)
+      return saveInfo.push(task)
     }
   })
   res.send(filterTask)
