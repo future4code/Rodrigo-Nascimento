@@ -4,56 +4,56 @@ type Produto = {
   price: number
 }
 
-const produto: Produto[] = [
+export const produtos: Produto[] = [
   {
-    id: Date.now().toString(),
+    id: "1",
     name: "Mamão",
     price: 1
   },
   {
-    id: Date.now().toString(),
+    id: "2",
     name: "Melão",
     price: 2
   },
   {
-    id: Date.now().toString(),
+    id: "3",
     name: "Melancia",
     price: 3
   },
   {
-    id: Date.now().toString(),
+    id: "4",
     name: "Limão",
     price: 4
   },
   {
-    id: Date.now().toString(),
+    id: "5",
     name: "Laranja",
     price: 5
   },
   {
-    id: Date.now().toString(),
+    id: "6",
     name: "Maçã",
     price: 6
   },
   {
-    id: Date.now().toString(),
+    id: "7",
     name: "Uva",
     price: 7
   },
   {
-    id: Date.now().toString(),
+    id: "8",
     name: "Manga",
     price: 8
   },
   {
-    id: Date.now().toString(),
+    id: "9",
     name: "Jambo",
     price: 9
   },
   {
-    id: Date.now().toString(),
+    id: "10",
     name: "Acerola",
     price: 10
-  },
+  }
 ]
 
