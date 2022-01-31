@@ -17,7 +17,7 @@ export const clientes: Usuario[] = [
     nome: "Rodrigo",
     cpf: "063.879.443-10",
     dataNasc: "25/10/1986",
-    saldo: 0,
+    saldo: 1000,
     extrato: [
       {
         valor: 10,
