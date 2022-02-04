@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import { AddressInfo } from "net"
 import connection from "./connection"
-import { users } from "./data"
+import knex from "knex"
 
 const app: Express = express()
 
@@ -23,19 +23,24 @@ app.post("/user", async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, nickname, email }: { name: string, nickname: string, email: string } = req.body
     const id: string = Date.now().toString()
-    let guardaCoisa = []
 
     if (!name || !nickname || !email) {
-      codeError = 401
+      codeError = 422
       throw new Error("Dados não preenchidos")
     }
 
-    guardaCoisa.push({ id, name, nickname, email })
+    await connection("ToDoList")
+      .insert({
+        id,
+        name,
+        nickname,
+        email
+      })
 
-    res.send({ name, nickname, email })
+    res.status(201).send("Pessoa cadastrada com sucesso!")
 
   } catch (error: any) {
-    res.status(codeError).send(error.message)
+    res.status(codeError).send(error.message || error.sqlMessage)
   }
 })
 
@@ -43,28 +48,25 @@ app.get("/user/:id", async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const id: string = req.params.id
-    let saveId
 
     if (!id) {
-      codeError = 401
+      codeError = 422
       throw new Error("Informe um ID válido")
     }
 
-    const findUser = users.map((user) => {
-      if (id === user.id) {
-        saveId = user.nickname
-      }
-    })
+    const result = await connection("ToDoList")
+      .select("id", "nickname")
+      .where("id", id)
 
-    if (saveId === undefined) {
-      codeError = 401
+    if(result.length === 0){
+      codeError = 422
       throw new Error("ID não encontrado")
     }
 
-    res.send({ id, nickname: saveId })
+    res.send(result)
 
   } catch (error: any) {
-    res.status(codeError).send(error.message)
+    res.status(codeError).send(error.message || error.sqlMessage)
   }
 })
 
@@ -74,39 +76,19 @@ app.put("/user/edit/:id", async (req: Request, res: Response): Promise<void> => 
     const id = req.params.id
     const { name, nickname, email }: { name: string, nickname: string, email: string } = req.body
 
-    let saveName
-    let saveNickname
-    let saveEmail
-
-    const findUser = users.filter((user) => {
-      if (id === user.id) {
-        saveName = user.name
-        saveNickname = user.nickname
-        saveEmail = user.email
-      }
-    })
-
     if (nickname === "" || name === "" || email === "") {
-      codeError = 401
+      codeError = 422
       throw new Error("Verifique o preenchimento dos campos")
     }
 
-    if (name) {
-      saveName = name
-    }
+    const result = await connection("ToDoList")
+      .update({name, nickname, email})
+      .where("id", id)
 
-    if (nickname) {
-      saveNickname = nickname
-    }
-
-    if (email) {
-      saveEmail = email
-    }
-
-    res.send({ name: saveName, nickname: saveNickname, email: saveEmail })
+    res.status(201).send("Alterações feitas com sucesso!")
 
   } catch (error: any) {
-    res.status(codeError).send(error.message)
+    res.status(codeError).send(error.message || error.sqlMessage)
 
   }
 })
@@ -117,11 +99,33 @@ app.post("/task", (req: Request, res: Response) => {
     const { title, description, limitDate, creatorUserId }: { title: string, description: string, limitDate: string, creatorUserId: string } = req.body
     const taskId: string = Date.now().toString()
 
-    res.send({title, description, limitDate, creatorUserId})
+    if (!title || !description || !limitDate || !creatorUserId) {
+      codeError = 422
+      throw new Error("Dados inválidos")
+    }
+
+    const changeDate = (date: string) => {
+      const newDate = date.split("/")
+      return newDate[2] + "-" + newDate[1] + "-" + newDate[0] as string
+    }
+
+    const data = "30/01/2003"
+    console.log(changeDate(data))
+
+    res.send({ title, description, limitDate, creatorUserId })
 
   } catch (error: any) {
-    res.status(codeError).send(error.message)
-
+    res.status(codeError).send(error.message || error.sqlMessage)
   }
 
+})
+
+app.get("/task/:id", (req: Request, res: Response) => {
+  let codeError = 400
+  try {
+
+
+  } catch (error: any) {
+    res.status(codeError).send(error)
+  }
 })
