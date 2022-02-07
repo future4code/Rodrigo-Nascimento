@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import { AddressInfo } from "net"
 import connection from "./connection"
-import knex from "knex"
 
 const app: Express = express()
 
@@ -24,8 +23,8 @@ app.get("/user", async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const query: string = req.query.query as string
-    
-    if(query?.length === 0){
+
+    if (query?.length === 0) {
       codeError = 422
       throw new Error("Informe um termo de pesquisa válido")
     }
@@ -34,19 +33,19 @@ app.get("/user", async (req: Request, res: Response): Promise<void> => {
       .select("id", "nickname")
 
     const filterUser = result.filter((user) => {
-      if(query === user.email|| query === user.nickname){
+      if (query === user.email || query === user.nickname) {
         return ({
-            id: user.id,
-            nickname: user.nickname
+          id: user.id,
+          nickname: user.nickname
         })
       }
     })
 
-    if(filterUser.length === 0){
-      res.send({users: []})
+    if (filterUser.length === 0) {
+      res.send({ users: [] })
     }
 
-    res.status(201).send({users: filterUser})
+    res.status(201).send({ users: filterUser })
 
   } catch (error: any) {
     res.status(codeError).send(error.message)
@@ -58,11 +57,11 @@ app.get("/user/all", async (req: Request, res: Response): Promise<void> => {
 
   const result = await connection("ToDoList")
     .select("id", "nickname")
-  
-  if(result.length === 0){
+
+  if (result.length === 0) {
     res.status(200).send([])
   } else {
-    res.status(201).send({users: result })
+    res.status(201).send({ users: result })
   }
 })
 
@@ -95,68 +94,137 @@ app.get("/user/:id", async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-//Pegar tarefas criadas por um usuário
-app.get("/task", async (req: Request, res: Response): Promise<void> =>{
+//Pegar tarefas criadas por um usuário // Pegar todas as tarefas por status // Procurar tarefa por termos
+app.get("/task", async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const creatorUserId: string = req.query.creatorUserId as string
+    const taskStatus: string = req.query.status as string
 
-    const result = await connection("ToDoListTask")
-      .select()
-      .join("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
-      .where("ToDoListTask.creator_user_id", creatorUserId)
+    if (creatorUserId) {
+      const result = await connection("ToDoListTask")
+        .select()
+        .join("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
+        .where("ToDoListTask.creator_user_id", creatorUserId)
 
-    const newData = result.map((task) =>{
-      return({
-        taskId: task.id,
-        title: task.title,
-        description: task.description,
-        limitDate: task.limit_date.toLocaleString().slice(0, -9),
-        status: task.status,
-        creatorUserId: task.creator_user_id,
-        creatorUserNickname: task.nickname
-      }) 
-    })
+      const newData = result.map((task) => {
+        return ({
+          taskId: task.id,
+          title: task.title,
+          description: task.description,
+          limitDate: task.limit_date.toLocaleString().slice(0, -9),
+          status: task.status,
+          creatorUserId: task.creator_user_id,
+          creatorUserNickname: task.nickname
+        })
+      })
 
-    if(result.length === 0){
-      codeError = 422
-      throw new Error("Nenhuma tarefa encontrada");
-    } else {
-      res.status(201).send(newData)
-    }
+      if (result.length === 0) {
+        codeError = 422
+        throw new Error("Nenhuma tarefa encontrada")
+      } else {
+        res.status(201).send(newData)
+      }
+
+    } else if (taskStatus) {
+        const result = await connection("ToDoListTask")
+          .select()
+          .join("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
+          .where("status", taskStatus)
+
+        const newData = result.map((task) => {
+          return ({
+            taskId: task.id,
+            title: task.title,
+            description: task.description,
+            limitDate: task.limit_date.toLocaleString().slice(0, -9),
+            creatorUserId: task.creator_user_id,
+            creatorUserNickname: task.nickname
+          })
+        })
+
+        if (result.length === 0) {
+          res.status(201).send({ tasks: [] })
+        } else {
+          res.status(201).send({ tasks: newData })
+        }
+      } 
 
   } catch (error: any) {
     res.status(codeError).send(error.message)
   }
-
 })
 
+//Pegar todas as tarefas atrasadas
+app.get("/task/delayed", async (req: Request, res: Response): Promise<void> => {
+  let codeError = 400
+  let date: string
+  try {
+    const result = await connection("ToDoListTask")
+      .select()
+      .join("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
+
+    const delayedDate = result.filter((task) =>{
+      const today: string = new Date as any
+      if(today > task.limit_date){
+        return task
+      }
+    }).map((taskMap) => {
+      return({
+        taskId: taskMap.id,
+        title: taskMap.title,
+        description: taskMap.description,
+        limitDate: taskMap.limit_date.toLocaleString().slice(0, -9), 
+        creatorUserId: taskMap.creator_user_id,
+        creatorUserNickname: taskMap.nickname
+      })
+    })
+
+    if(delayedDate.length === 0){
+      codeError = 404
+      throw new Error("Nenhuma tarefa atrasada foi encontrada")
+    } else {
+      res.status(201).send({tasks: delayedDate})
+    }
+  } catch (error: any) {
+    res.status(codeError).send(error.message || error.sqlMessage)
+  }
+
+})
 //Pegar tarefa pelo id
 app.get("/task/:id", async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
+  let responsibleUserId: string[]
   try {
     const id: string = req.params.id
- 
-    const result = await connection("ToDoListTask")
-      .select("ToDoListTask.id as id", "title", "description", "limit_date as limitDate", "status", "creator_user_id as creatorUserId", "nickname as creatorUserNickname")
-      .join("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
-      .where("ToDoListTask.id", id)
 
-    if(result.length === 0){
+    const result = await connection("ToDoListTask")
+      .select()
+      .rightJoin("ToDoList", "ToDoList.id", "ToDoListTask.creator_user_id")
+      .leftJoin("ToDoListResponsibleUserTaskRelation", "ToDoListResponsibleUserTaskRelation.task_id", "ToDoListTask.id")
+      .where("ToDoListTask.id", id)
+    responsibleUserId = result[0].responsible_user_id
+
+    if (result.length === 0) {
       codeError = 422
       throw new Error("Task não encontrada")
     }
 
-    const newData = result.map((data) =>{
+    const searchUser = await connection("ToDoList")
+      .select("ToDoList.id", "ToDoList.nickname")
+      .where("ToDoList.id", responsibleUserId)
+
+    const newData = result.map((data) => {
       return ({
-        taskId: data.id,
+        taskId: id,
         title: data.title,
         description: data.description,
-        limitDate: data.limitDate.toLocaleString().slice(0, -9),
+        limitDate: data.limit_date.toLocaleString().slice(0, -9),
         status: data.status,
-        creatorUserId: data.creatorUserId,
-        creatorUserNickname: data.creatorUserNickname
-        })    
+        creatorUserId: data.creator_user_id,
+        creatorUserNickname: data.nickname,
+        responsibleUserId: searchUser
+      })
     })
 
     res.status(201).send(newData)
@@ -164,6 +232,30 @@ app.get("/task/:id", async (req: Request, res: Response): Promise<void> => {
   } catch (error: any) {
     res.status(codeError).send(error.message || error.sqlMessage)
   }
+})
+
+//Pegar usuários responsáveis por uma tarefa
+app.get("/task/:id/responsible", async (req: Request, res: Response): Promise<void> => {
+  let codeError = 400
+  try {
+    const id: string = req.params.id
+
+    if (!id) {
+      codeError = 422
+      throw new Error("Preencha o campo id")
+    }
+
+    const result = await connection("ToDoList")
+      .select("id", "nickname")
+      .join("ToDoListResponsibleUserTaskRelation", "ToDoListResponsibleUserTaskRelation.responsible_user_id", "ToDoList.id")
+      .where("task_id", id)
+
+    res.status(201).send({ users: result })
+
+  } catch (error: any) {
+    res.status(codeError).send(error.message || error.sqlMessage)
+  }
+
 })
 
 //Criar tarefa
@@ -202,6 +294,30 @@ app.post("/task", async (req: Request, res: Response): Promise<void> => {
 
 })
 
+//Atribuir um usuário responsável a uma tarefa
+app.post("/task/responsible", async (req: Request, res: Response): Promise<void> => {
+  let codeError = 400
+  try {
+    const { taskId, responsibleUserId }: { taskId: string, responsibleUserId: string } = req.body
+
+    if (!taskId || !responsibleUserId) {
+      codeError = 422
+      throw new Error("Preencha os campos corretamente")
+    }
+
+    const result = await connection("ToDoListResponsibleUserTaskRelation")
+      .insert({
+        task_id: taskId,
+        responsible_user_id: responsibleUserId
+      })
+
+    res.status(201).send("Atribuído com sucesso")
+
+  } catch (error: any) {
+    res.status(codeError).send(error.message || error.sqlMessage)
+  }
+})
+
 //Criar usuário
 app.post("/user", async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
@@ -223,6 +339,39 @@ app.post("/user", async (req: Request, res: Response): Promise<void> => {
       })
 
     res.status(201).send("Pessoa criada com sucesso!")
+
+  } catch (error: any) {
+    res.status(codeError).send(error.message || error.sqlMessage)
+  }
+})
+
+//Atualizar o status da tarefa por id
+app.put("/task/status/:id/", async (req: Request, res: Response): Promise<void> => {
+  let codeError = 400
+  try {
+    const id: string = req.params.id
+    const newStatus: string = req.body.status
+
+    if (id === ":id") {
+      codeError = 422
+      throw new Error("Informe um ID")
+    }
+
+    if (!newStatus) {
+      codeError = 422
+      throw new Error("Informe uma atualização válida")
+    }
+
+    const result = await connection("ToDoListTask")
+      .update("status", newStatus)
+      .where("id", id)
+
+    if (!result) {
+      codeError = 422
+      throw new Error("Verifique os dados")
+    }
+
+    res.status(201).send("Status da atividade atualizado")
 
   } catch (error: any) {
     res.status(codeError).send(error.message || error.sqlMessage)
@@ -252,3 +401,4 @@ app.put("/user/edit/:id", async (req: Request, res: Response): Promise<void> => 
 
   }
 })
+
