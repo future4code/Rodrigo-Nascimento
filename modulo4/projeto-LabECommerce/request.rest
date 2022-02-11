@@ -18,12 +18,24 @@ POST http://localhost:3003/products
 Content-Type: application/json
 
 {
-  "name": "Morango",
-  "price": 10.90,
-  "imageUrl": "https://i.picsum.photos/id/1080/6858/4574.jpg?hmac=qMYBjROs2Wu589QQXRAYsxDJu4ZuRQ4PKDpb3x_Oouw"
+  "name": "Celular",
+  "price": 1500,
+  "imageUrl": "https://i.picsum.photos/id/160/3200/2119.jpg?hmac=cz68HnnDt3XttIwIFu5ymcvkCp-YbkEBAM-Zgq-4DHE"
 }
 
 ###
 
 GET http://localhost:3003/products
 Content-Type: application/json
+
+
+###
+
+POST http://localhost:3003/purchases
+Content-Type: application/json
+
+{
+  "userId": "106",
+  "productId": "138",
+  "quantity": 9
+}
