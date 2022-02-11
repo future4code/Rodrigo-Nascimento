@@ -22,3 +22,8 @@ Content-Type: application/json
   "price": 10.90,
   "imageUrl": "https://i.picsum.photos/id/1080/6858/4574.jpg?hmac=qMYBjROs2Wu589QQXRAYsxDJu4ZuRQ4PKDpb3x_Oouw"
 }
+
+###
+
+GET http://localhost:3003/products
+Content-Type: application/json
