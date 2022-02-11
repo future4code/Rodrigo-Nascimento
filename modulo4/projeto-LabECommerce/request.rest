@@ -6,3 +6,8 @@ Content-Type: application/json
   "email": "rodrigo@email.com",
   "password": "123456789"
 }
+
+###
+
+GET http://localhost:3003/users
+Content-Type: application/json

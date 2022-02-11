@@ -1,4 +1,4 @@
-import express, {Request, Response} from "express"
+import {Request, Response} from "express"
 import { connection } from "../connection"
 import { User } from "../types/user"
 
