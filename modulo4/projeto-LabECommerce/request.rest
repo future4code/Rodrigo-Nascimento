@@ -1,3 +1,4 @@
+//Cadastro usuário
 POST http://localhost:3003/users
 Content-Type: application/json
 
@@ -9,11 +10,13 @@ Content-Type: application/json
 
 ###
 
+//Busca por todos os usuários
 GET http://localhost:3003/users
 Content-Type: application/json
 
 ###
 
+//Cadastro de produto
 POST http://localhost:3003/products
 Content-Type: application/json
 
@@ -25,12 +28,14 @@ Content-Type: application/json
 
 ###
 
+//Busca por todos os produtos
 GET http://localhost:3003/products
 Content-Type: application/json
 
 
 ###
 
+//Registro de compra
 POST http://localhost:3003/purchases
 Content-Type: application/json
 
@@ -39,3 +44,9 @@ Content-Type: application/json
   "productId": "138",
   "quantity": 9
 }
+
+###
+
+//Busca das compras de um usuário
+GET http://localhost:3003/users/106/purchases
+Content-Type: application/json

@@ -1,7 +1,5 @@
 import { Request, Response } from "express"
 import { connection } from "../connection"
-import { selectAllProducts } from "../data/selectAllProducts"
-import { getAllProducts } from "./getAllProducts"
 
 export const createPurchaseRecord = async (req: Request, res: Response):Promise<void> => {
   try {
