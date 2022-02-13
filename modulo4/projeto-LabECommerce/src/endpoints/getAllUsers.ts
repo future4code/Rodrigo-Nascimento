@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import { connection } from "../connection"
 import { selectAllPurchases } from "../data/selectAllPurchases"
 import { selectAllUsers } from "../data/selectAllUsers"
 
@@ -7,7 +6,10 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
   try {
 
     const users = await selectAllUsers()
-    const purchases = await selectAllPurchases()
+    
+    for (let i = 0; i < users.length; i++){
+      users[i].purchases = await selectAllPurchases(users[i].id)
+    }
 
     res.send(users)
 

@@ -1,29 +1,21 @@
 import { Request, Response } from "express"
 import { connection } from "../connection"
+import { selectAllPurchases } from "../data/selectAllPurchases"
 
 export const getAllPurchases = async (req: Request, res: Response): Promise<void> => {
   try {
 
     const userId: string = req.params.user_id
 
-    const result = await connection("labecommerce_purchases")
-      .select("product_id",
-        "labecommerce_products.name",
-        "price",
-        "quantity",
-        "total_price",
-        "user_id")
-      .join("labecommerce_users", "user_id", "labecommerce_users.id")
-      .join("labecommerce_products", "product_id", "labecommerce_products.id")
-      .where("user_id", userId)
+    const purchases = await selectAllPurchases(userId)
 
-    const userPurchase = result.map((user) => {
+    const userPurchase = purchases.map((prod) => {
         return {
-          productId: user.product_id,
-          productName: user.name,
-          price: user.price,
-          quantity: user.quantity,
-          total: user.total_price
+          productId: prod.product_id,
+          productName: prod.name,
+          price: prod.price,
+          quantity: prod.quantity,
+          total: prod.total_price
       }
     })
 
