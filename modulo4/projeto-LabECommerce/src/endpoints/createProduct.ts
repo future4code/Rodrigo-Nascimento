@@ -10,8 +10,6 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
     const re = "https://"
     const index = imageUrl.search(re)
 
-    console.log(index)
-
     if(!name || !price || !imageUrl){
       throw new Error("Preencha todos os campos")
       codeError = 401
