@@ -4,7 +4,6 @@ import { selectAllProducts } from "../data/selectAllProducts"
 
 export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
-
     const search = req.query.search as string
     const order = req.query.order as string
     let response

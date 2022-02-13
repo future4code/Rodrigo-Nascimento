@@ -1,12 +1,18 @@
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 import { connection } from "../connection"
 import { User } from "../types/user"
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
+  let codeError = 400
   try {
     const { name, email, password }: User = req.body
     const id: string = Math.floor(Math.random() * 256).toString()
-  
+
+    if (!name || !email || !password) {
+      throw new Error("Preencha todos os campos")
+      codeError = 401
+    }
+
     const result = await connection("labecommerce_users")
       .insert({
         id,
@@ -14,11 +20,11 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         email,
         password
       })
-        
-    res.status(201).send("Pessoa cadastrada com sucesso!")
-    
+
+    res.status(201).send("Pessoa cadastrada.")
+
   } catch (error: any) {
-    res.status(500).send(error.message || error.sqlMessage)
+    res.status(codeError).send(error.message || error.sqlMessage)
   }
 }
 
