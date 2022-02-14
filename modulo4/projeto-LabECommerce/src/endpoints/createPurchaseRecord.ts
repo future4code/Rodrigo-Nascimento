@@ -1,21 +1,22 @@
 import { Request, Response } from "express"
 import { connection } from "../connection"
+import { Purchase } from "../types/purchase"
 
 export const createPurchaseRecord = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
-    const { userId, productId, quantity }: { userId: string, productId: string, quantity: number } = req.body
+    const { userId, productId, quantity }: Purchase = req.body
     const id: string = Math.floor(Math.random() * 256).toString()
     let totalPrice: number = 0
 
     if (!userId || !productId || !quantity) {
+      codeError = 422
       throw new Error("Preencha todos os campos")
-      codeError = 401
     }
 
     if (quantity <= 0) {
+      codeError = 422
       throw new Error("Informe uma quantidade maior que 0")
-      codeError = 401
     }
 
     const product = await connection("labecommerce_products")

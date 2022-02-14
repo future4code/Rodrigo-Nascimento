@@ -11,18 +11,18 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
     const index = imageUrl.search(re)
 
     if(!name || !price || !imageUrl){
+      codeError = 422
       throw new Error("Preencha todos os campos")
-      codeError = 401
     }
 
     if(price <= 0){
+      codeError = 422
       throw new Error("Informe um valor de 'price' válido")
-      codeError = 401
     }
 
     if(index === -1){
+      codeError = 422
       throw new Error("A url da imagem deve iniciar com 'https://' para ser válida")
-      codeError = 401
     }
 
     const result = await connection("labecommerce_products")

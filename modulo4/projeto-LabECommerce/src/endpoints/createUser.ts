@@ -9,8 +9,8 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     const id: string = Math.floor(Math.random() * 256).toString()
 
     if (!name || !email || !password) {
+      codeError = 422
       throw new Error("Preencha todos os campos")
-      codeError = 401
     }
 
     const result = await connection("labecommerce_users")
