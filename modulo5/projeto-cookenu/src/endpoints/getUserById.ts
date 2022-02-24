@@ -1,11 +1,17 @@
-import { Request, Response } from "express";
-import { UserDatabase } from "../data/UserDatabase";
-import { Authenticator } from "../services/Authenticator";
+import { Request, Response } from "express"
+import { UserDatabase } from "../data/UserDatabase"
+import { Authenticator } from "../services/Authenticator"
 
-export const getUserProfile = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response) => {
   let codeError = 400
   try {
+    const { id } = req.params
     const token = req.headers.authorization
+
+    if (!id) {
+      codeError = 422
+      throw new Error("Informe um id válido.")
+    }
 
     if (!token) {
       codeError = 422
@@ -16,7 +22,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     const tokenData = authenticator.getTokenData(token)
 
     const userDatabase = new UserDatabase()
-    const user = await userDatabase.findUserById(tokenData.id)
+    const user = await userDatabase.findUserById(id)
 
     res.status(200).send(user)
 
