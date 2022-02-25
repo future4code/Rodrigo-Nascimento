@@ -40,4 +40,14 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+
+  public async followUserById(id: string, followerId: string, followedId: string): Promise<void> {
+    try {
+      const user = await BaseDatabase.connection("cookenu_followers")
+        .insert({ id, follower_id: followerId, followed_id: followedId })
+
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }
