@@ -20,12 +20,15 @@ export const createRecipe = async (req: Request, res: Response) => {
       throw new Error("Informe um token válido.")
     }
 
+    const authenticator = new Authenticator()
+    const tokenData = authenticator.getTokenData(token)
+
     const recipeDatabase = new RecipeDatabase()
-    const recipe = await recipeDatabase.findRecipeByName(title, description)
+    const recipe = await recipeDatabase.findRecipeByTitleAndDescription(title, description)
 
     if (recipe) {
       codeError = 409
-      throw new Error("Receita já existe.")
+      throw new Error("Receita já cadastrada.")
     }
 
     const idGenerator = new IdGenerator()
@@ -33,9 +36,6 @@ export const createRecipe = async (req: Request, res: Response) => {
 
     const newDate = new Date()
     const date = newDate.toLocaleDateString("pt-BR")
-
-    const authenticator = new Authenticator()
-    const tokenData = authenticator.getTokenData(token)
 
     const newRecipe = new Recipe(id, title, description, date, tokenData.id)
     await recipeDatabase.createRecipe(newRecipe)

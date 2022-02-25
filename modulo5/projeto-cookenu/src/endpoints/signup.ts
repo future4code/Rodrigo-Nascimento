@@ -15,7 +15,7 @@ export const signup = async (req: Request, res: Response): Promise<any> => {
       throw new Error("Insira as informações de 'name', 'email', 'password' e 'role' corretamente.")
     }
 
-    if (email.includes("@")) {
+    if (!email.includes("@")) {
       codeError = 422
       throw new Error("Informe um email válido.")
     }
