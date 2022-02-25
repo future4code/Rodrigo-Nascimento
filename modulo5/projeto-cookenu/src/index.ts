@@ -6,6 +6,7 @@ import { getUserById } from "./endpoints/getUserById"
 import { getUserProfile } from "./endpoints/getUserProfile"
 import { login } from "./endpoints/login"
 import { signup } from "./endpoints/signup"
+import { unfollowUser } from "./endpoints/unfollowUser"
 
 //pegar receita pelo id
 app.get("/recipe/:id", getRecipeById)
@@ -19,5 +20,7 @@ app.post("/login", login)
 app.post("/recipe", createRecipe)
 //criar usuário
 app.post("/signup", signup)
-//seguir urusário
+//seguir usuário
 app.post("/user/follow", followUser)
+//deixar de seguir usuário
+app.post("/user/unfollow", unfollowUser)

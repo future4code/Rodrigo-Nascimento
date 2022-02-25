@@ -50,4 +50,14 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+
+  public async unfollowUserById(userId: string, userToUnfollow: string): Promise<void> {
+    try {
+      const user = await BaseDatabase.connection("cookenu_followers")
+        .where({ follower_id: userId, followed_id: userToUnfollow })
+        .delete()
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }

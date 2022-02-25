@@ -3,7 +3,7 @@ import { UserDatabase } from "../data/UserDatabase";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
-export const followUser = async (req: Request, res: Response) => {
+export const followUser = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const token = req.headers.authorization
@@ -26,6 +26,6 @@ export const followUser = async (req: Request, res: Response) => {
     res.status(201).send({ message: "Seguindo com sucesso." })
 
   } catch (error: any) {
-    res.send(codeError).status(error.message || error.sqlMessage)
+    res.status(codeError).send(error.message || error.sqlMessage)
   }
 }
