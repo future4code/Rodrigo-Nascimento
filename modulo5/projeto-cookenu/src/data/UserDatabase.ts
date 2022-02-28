@@ -60,4 +60,26 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+
+  public async userFeed(userId: string): Promise<string[]> {
+    try {
+      const user = await BaseDatabase.connection.raw(`
+        select cookenu_recipes.id as "id", 
+        cookenu_recipes.title as "title", 
+        cookenu_recipes.description as "description",
+        cookenu_recipes.created_at as "createdAt",
+        cookenu_recipes.user_id as "userId",
+        cookenu_users.name as "userName"
+        from cookenu_recipes 
+        inner join cookenu_users
+        inner join cookenu_followers
+        on (followed_id = cookenu_recipes.user_id)
+        and (followed_id = cookenu_users.id)
+        where follower_id = "${userId}"`)
+      return user[0]
+
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }

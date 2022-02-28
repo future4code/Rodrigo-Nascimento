@@ -1,6 +1,7 @@
 import { app } from "./app"
 import { createRecipe } from "./endpoints/createRecipe"
 import { followUser } from "./endpoints/followUser"
+import { getAllRecipes } from "./endpoints/getAllRecipes"
 import { getRecipeById } from "./endpoints/getRecipeById"
 import { getUserById } from "./endpoints/getUserById"
 import { getUserProfile } from "./endpoints/getUserProfile"
@@ -10,6 +11,8 @@ import { unfollowUser } from "./endpoints/unfollowUser"
 
 //pegar receita pelo id
 app.get("/recipe/:id", getRecipeById)
+//pegar feed do usuário
+app.get("/user/feed", getAllRecipes)
 //pegar perfil do usuário
 app.get("/user/profile", getUserProfile)
 //pegar usuário pelo id
