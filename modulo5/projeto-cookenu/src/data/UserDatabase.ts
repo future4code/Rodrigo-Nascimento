@@ -64,18 +64,19 @@ export class UserDatabase extends BaseDatabase {
   public async userFeed(userId: string): Promise<string[]> {
     try {
       const user = await BaseDatabase.connection.raw(`
-        select cookenu_recipes.id as "id", 
-        cookenu_recipes.title as "title", 
-        cookenu_recipes.description as "description",
-        cookenu_recipes.created_at as "createdAt",
-        cookenu_recipes.user_id as "userId",
-        cookenu_users.name as "userName"
-        from cookenu_recipes 
-        inner join cookenu_users
-        inner join cookenu_followers
-        on (followed_id = cookenu_recipes.user_id)
-        and (followed_id = cookenu_users.id)
-        where follower_id = "${userId}"`)
+        SELECT cookenu_recipes.id AS "id", 
+        cookenu_recipes.title AS "title", 
+        cookenu_recipes.description AS "description",
+        cookenu_recipes.created_at AS "createdAt",
+        cookenu_recipes.user_id AS "userId",
+        cookenu_users.name AS "userName"
+        FROM cookenu_recipes 
+        INNER JOIN cookenu_users
+        INNER JOIN cookenu_followers
+        ON (followed_id = cookenu_recipes.user_id)
+        AND (followed_id = cookenu_users.id)
+        WHERE follower_id = "${userId}"
+        ORDER BY "createdAt" ASC`)
       return user[0]
 
     } catch (error: any) {

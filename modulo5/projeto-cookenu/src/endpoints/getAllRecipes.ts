@@ -20,7 +20,6 @@ export const getAllRecipes = async (req: Request, res: Response): Promise<void> 
 
     res.status(200).send({recipes: userFeed})
 
-    
   } catch (error: any) {
     res.status(codeError).send(error.message || error.sqlMessage)
   }
