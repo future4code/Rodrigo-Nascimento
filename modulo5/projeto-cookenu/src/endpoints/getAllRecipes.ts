@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UserDatabase } from "../data/UserDatabase";
 import { Authenticator } from "../services/Authenticator";
 
-
 export const getAllRecipes = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
@@ -16,9 +15,9 @@ export const getAllRecipes = async (req: Request, res: Response): Promise<void> 
     const authenticator = new Authenticator()
     const tokenData = authenticator.getTokenData(token)
 
-    const user = new UserDatabase
+    const user = new UserDatabase()
     const userFeed = await user.userFeed(tokenData.id)
-    
+
     res.status(200).send({recipes: userFeed})
 
     
