@@ -4,7 +4,7 @@ import { Recipe } from "../entities/Recipe"
 import { Authenticator } from "../services/Authenticator"
 import { IdGenerator } from "../services/IdGenerator"
 
-export const createRecipe = async (req: Request, res: Response) => {
+export const createRecipe = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const { title, description } = req.body
@@ -24,7 +24,7 @@ export const createRecipe = async (req: Request, res: Response) => {
     const tokenData = authenticator.getTokenData(token)
 
     const recipeDatabase = new RecipeDatabase()
-    const recipe = await recipeDatabase.findRecipeByTitleAndDescription(title, description)
+    const recipe = await recipeDatabase.findRecipe(title, description)
 
     if (recipe) {
       codeError = 409

@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { UserDatabase } from "../data/UserDatabase"
 import { Authenticator } from "../services/Authenticator"
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const { id } = req.params

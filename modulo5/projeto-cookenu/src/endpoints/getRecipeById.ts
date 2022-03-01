@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { RecipeDatabase } from "../data/RecipeDatabase"
 import { Authenticator } from "../services/Authenticator"
 
-export const getRecipeById = async (req: Request, res: Response) => {
+export const getRecipeById = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const token = req.headers.authorization

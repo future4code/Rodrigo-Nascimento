@@ -5,7 +5,7 @@ import { Authenticator } from "../services/Authenticator"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
 
-export const signup = async (req: Request, res: Response): Promise<any> => {
+export const signup = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const { name, email, password, role } = req.body
