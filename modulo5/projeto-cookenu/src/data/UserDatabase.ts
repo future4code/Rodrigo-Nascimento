@@ -83,4 +83,27 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+
+  public async deleteUser(id: string): Promise<void> {
+    try {
+      const follow = await BaseDatabase.connection("cookenu_followers")
+        .where({ follower_id: id })
+        .del()
+
+      const followed = await BaseDatabase.connection("cookenu_followers")
+        .where({ followed_id: id })
+        .del()
+
+      const recipe = await BaseDatabase.connection("cookenu_recipes")
+        .where({ user_id: id })
+        .del()
+
+      const user = await BaseDatabase.connection("cookenu_users")
+        .where({ id })
+        .del()
+
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }

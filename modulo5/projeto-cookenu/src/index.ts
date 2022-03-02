@@ -10,7 +10,7 @@ import { login } from "./endpoints/login"
 import { signup } from "./endpoints/signup"
 import { unfollowUser } from "./endpoints/unfollowUser"
 import { deleteRecipe } from "./endpoints/deleteRecipe"
-
+import { deleteUser } from "./endpoints/deleteUser"
 
 //USER
 //pegar feed do usuário
@@ -27,9 +27,8 @@ app.post("/signup", signup)
 app.post("/user/follow", followUser)
 //deixar de seguir usuário
 app.post("/user/unfollow", unfollowUser)
-//delete
-
-
+//deletar usuário
+app.delete("/user/delete/:id", deleteUser)
 
 //RECIPE
 //pegar receita pelo id
