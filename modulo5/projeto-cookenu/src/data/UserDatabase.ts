@@ -106,4 +106,15 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+
+  public async newPassword(password: string, email: string): Promise<void> {
+    try {
+      const user = await BaseDatabase.connection("cookenu_users")
+        .where({ email })
+        .update({ password })
+
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
 }
