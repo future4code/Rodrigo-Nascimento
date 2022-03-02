@@ -20,7 +20,7 @@ export const getRecipeById = async (req: Request, res: Response): Promise<void> 
     const recipe = await recipeDatabase.findRecipeById(id)
 
     if (!recipe) {
-      codeError = 422
+      codeError = 409
       throw new Error("Receita não encontrada.")
     }
 

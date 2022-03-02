@@ -2,31 +2,23 @@ import { Request, Response } from "express"
 import { RecipeDatabase } from "../data/RecipeDatabase"
 import { Authenticator } from "../services/Authenticator"
 
-export const editRecipe = async (req: Request, res: Response): Promise<void> => {
+export const deleteRecipe = async (req: Request, res: Response): Promise<void> => {
   let codeError = 400
   try {
     const token = req.headers.authorization
     const { id } = req.params
-    const { title, description } = req.body
 
-    if (!token) {
+    if (!token || !id) {
       codeError = 422
-      throw new Error("Informe um token.")
-    }
-
-    if (!id || !title || !description) {
-      codeError = 422
-      throw new Error("Informe corretamente os valores de 'id', 'title' e 'description'.");
+      throw new Error("Informe as informações de 'token' e 'id'")
     }
 
     const authenticator = new Authenticator()
     const tokenData = authenticator.getTokenData(token)
 
-    const newDate = new Date()
-    const date = newDate.toLocaleDateString("pt-BR")
-
     const recipe = new RecipeDatabase()
     const findRecipe = await recipe.findRecipe()
+
     const data = JSON.parse(JSON.stringify(findRecipe))
 
     const validate = data.filter((recipe: any) => {
@@ -41,8 +33,8 @@ export const editRecipe = async (req: Request, res: Response): Promise<void> => 
     }
 
     if (validate[0].user_id === tokenData.id || tokenData.role === "ADMIN") {
-      const editRecipe = await recipe.editRecipe(id, title, description, date)
-      res.status(200).send("Receita alterada com sucesso.")
+      const deleteRecipe = await recipe.deleteRecipe(id)
+      res.status(200).send("Receita deletada.")
     } else {
       codeError = 422
       throw new Error("Só donos da própria receita ou administradores tem permissão para isso.")

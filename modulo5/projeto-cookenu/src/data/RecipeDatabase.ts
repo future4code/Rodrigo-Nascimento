@@ -56,7 +56,18 @@ export class RecipeDatabase extends BaseDatabase {
       return recipe
 
     } catch (error: any) {
-      throw new Error(error.sqlMessage || error.message);
+      throw new Error(error.sqlMessage || error.message)
+    }
+  }
+
+  public async deleteRecipe(id: string) {
+    try {
+      const recipe = await BaseDatabase.connection("cookenu_recipes")
+        .where({id})
+        .del()
+      
+    } catch (error: any) {
+      throw new Error(error.sqlMessage || error.message)
     }
   }
 }
