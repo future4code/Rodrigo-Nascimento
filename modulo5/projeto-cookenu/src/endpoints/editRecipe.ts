@@ -27,14 +27,15 @@ export const editRecipe = async (req: Request, res: Response): Promise<void> => 
 
     const recipe = new RecipeDatabase()
     const findRecipe = await recipe.findRecipe()
+    const data = JSON.parse(JSON.stringify(findRecipe))
 
-    const validate = JSON.parse(JSON.stringify(findRecipe)).filter((recipe: any) => {
+    const validate = data.filter((recipe: any) => {
       if (recipe.id === id) {
         return recipe
       }
     })
 
-    if (!validate) {
+    if (!validate[0]) {
       codeError = 422
       throw new Error("Receita não encontrada. Informe um id válido")
     }
