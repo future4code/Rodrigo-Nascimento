@@ -76,7 +76,7 @@ export class UserDatabase extends BaseDatabase {
         ON (followed_id = cookenu_recipes.user_id)
         AND (followed_id = cookenu_users.id)
         WHERE follower_id = "${userId}"
-        ORDER BY "createdAt" ASC`)
+        ORDER BY "createdAt" DESC`)
       return user[0]
 
     } catch (error: any) {
