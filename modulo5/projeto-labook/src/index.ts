@@ -15,4 +15,8 @@ const userController = new UserController(
   )
 )
 
+//USUÁRIOS
+//login usuário
+app.post("/user/login", userController.login)
+//criar usuário
 app.post("/user/signup", userController.signup)

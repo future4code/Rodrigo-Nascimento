@@ -1,4 +1,4 @@
-import { SignupInputDTO } from "../controller/UserController";
+import { LoginInputDTO, SignupInputDTO } from "../controller/UserController";
 import { UserDatabase } from "../data/UserDatabase";
 import { User } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
@@ -11,34 +11,34 @@ export class UserBusiness {
     private idGenerator: IdGenerator,
     private hashManager: HashManager,
     private authenticator: Authenticator
-  ){}
+  ) { }
 
   signup = async (input: SignupInputDTO) => {
     //valida os campos passados na requisição
     const { name, email, password } = input
     //joga um erro se os campos faltarem ou forem incorretos
-    if(!name || !email || !password){
+    if (!name || !email || !password) {
       throw new Error("É necessário passar um 'name', 'email' e um 'password'")
     }
 
     const validEmail = email.indexOf("@")
 
-    if(validEmail === -1){
+    if (validEmail === -1) {
       throw new Error("Informe um e-mail válido")
     }
 
-    if(password.length < 6){
+    if (password.length < 6) {
       throw new Error("A senha precisa ter ao menos 6 caracteres")
     }
 
     //verifica se o usuário existe no banco de dados
 
     const registeredUser = await this.userDatabase.findUserByEmail(email)
-    
-    if(registeredUser){
+
+    if (registeredUser) {
       throw new Error("Esse e-mail já foi cadastrado")
     }
-     
+
     //cria id
 
     const id = this.idGenerator.generate()
@@ -56,7 +56,31 @@ export class UserBusiness {
 
     //gera o token e retorna pro usuário
 
-    const token = this.authenticator.generate({id})
+    const token = this.authenticator.generate({ id })
+
+    return token
+  }
+
+  login = async (input: LoginInputDTO) => {
+    const { email, password } = input
+
+    if (!email || !password) {
+      throw new Error("É necessário passar 'email' e password'")
+    }
+
+    const user = await this.userDatabase.findUserByEmail(email)
+
+    if (!user) {
+      throw new Error("Usuário não cadastrado")
+    }
+
+    const passwordIsTrue = await this.hashManager.compare(password, user.password)
+
+    if (!passwordIsTrue) {
+      throw new Error("Senha inválida")
+    }
+
+    const token = this.authenticator.generate({ id: user.id })
 
     return token
   }
