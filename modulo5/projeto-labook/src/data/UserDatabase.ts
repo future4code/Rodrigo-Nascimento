@@ -68,11 +68,26 @@ export class UserDatabase extends BaseDatabase {
           follower_id: userId,
           followed_id: friendId
         })
-        
+  
       return result[0]
       
     } catch (error: any) {
       throw new Error(error.message || error.sqlMessage)      
+    }
+  }
+
+  unfollowUser = async (userId: string, friendId: string) => {
+    try {
+      const result = await BaseDatabase.connection(this.TABLE_FOLLOWERS)
+      .select()
+      .where({
+        follower_id: userId,
+        followed_id: friendId
+      })
+      .delete()
+
+    } catch (error: any) {
+      throw new Error(error.message || error.sqlMessage)
     }
   }
 }

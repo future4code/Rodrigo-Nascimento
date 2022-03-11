@@ -75,7 +75,7 @@ export class UserBusiness {
 
   followUser = async (id: string, token: string) => {
     if (id === ":id") {
-      throw new Error("É necessário informar um 'userId'")
+      throw new Error("É necessário informar um 'id'")
     }
 
     if (!token) {
@@ -83,10 +83,6 @@ export class UserBusiness {
     }
 
     if (token === "invalid token" || token.length < 187) {
-      throw new Error("Token inválido")
-    }
-
-    if (token == "Unexpected token") {
       throw new Error("Token inválido")
     }
 
@@ -111,5 +107,42 @@ export class UserBusiness {
     const userToFollow = await this.userDatabase.followUser(tokenData.id, id)
 
     const followedUser = await this.userDatabase.followUser(id, tokenData.id)
+  }
+
+  unfollowUser = async (id: string, token: string) => {
+    if (id === ":id") {
+      throw new Error("É necessário informar um 'id'")
+    }
+
+    if (!token) {
+      throw new Error("É necessário passar um 'token'")
+    }
+
+    if (token === "invalid token" || token.length < 187) {
+      throw new Error("Token inválido")
+    }
+
+    const registeredUser = await this.userDatabase.findUserById(id)
+
+    if (!registeredUser) {
+      throw new Error("Usuário não encontrado")
+    }
+
+    const tokenData = this.authenticator.getTokenData(token)
+
+    if (tokenData.id === registeredUser.id) {
+      throw new Error("É necessário passar 'ids' diferentes para desfazer amizade")
+    }
+
+    const isAlreadyAFriend = await this.userDatabase.findUserFriends(tokenData.id, id)
+
+    if (!isAlreadyAFriend) {
+      throw new Error("Essa amizade não existe")
+    }
+
+    const userToUnfollow = await this.userDatabase.unfollowUser(tokenData.id, id)
+
+    const unfollowedUser = await this.userDatabase.unfollowUser(id, tokenData.id)
+
   }
 }
