@@ -25,8 +25,9 @@ export class PostController {
       res.send({message: "Post criado com sucesso!"})
       
     } catch (error: any) {
+      if(error.message === "invalid token") return res.status(400).send("Token inválido")
       if(error.message) return res.status(400).send(error.message)
-      res.status(400).send("Error no createPost")
+      res.status(400).send("Erro no createPost")
     }
   }
 

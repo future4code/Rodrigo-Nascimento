@@ -17,7 +17,8 @@ const userController = new UserController(
 
 export const userRouter = express.Router()
 
+userRouter.get("/feed", userController.feed)
 userRouter.post("/login", userController.login)
 userRouter.post("/signup", userController.signup)
 userRouter.post("/follow/:id", userController.followUser)
-userRouter.post("/unfollow/:id", userController.unfollowUser)
+userRouter.delete("/unfollow/:id", userController.unfollowUser)

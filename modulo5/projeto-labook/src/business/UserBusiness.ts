@@ -82,19 +82,21 @@ export class UserBusiness {
       throw new Error("É necessário passar um 'token'")
     }
 
-    if (token === "invalid token" || token.length < 187) {
+    if (token.length < 187) {
       throw new Error("Token inválido")
     }
+    
+    const tokenData = this.authenticator.getTokenData(token)
 
-    const registeredUser = await this.userDatabase.findUserById(id)
+    const registeredUser = await this.userDatabase.findUserById(tokenData.id)
 
-    if (!registeredUser) {
+    const registeredFollower = await this.userDatabase.findUserById(id)
+
+    if (!registeredUser || !registeredFollower) {
       throw new Error("Usuário não encontrado")
     }
 
-    const tokenData = this.authenticator.getTokenData(token)
-
-    if (tokenData.id === registeredUser.id) {
+    if (tokenData.id === id) {
       throw new Error("É necessário passar 'ids' diferentes para pedidos de amizade")
     }
 
@@ -118,19 +120,21 @@ export class UserBusiness {
       throw new Error("É necessário passar um 'token'")
     }
 
-    if (token === "invalid token" || token.length < 187) {
+    const tokenData = this.authenticator.getTokenData(token)
+
+    if (token === "invalid token" || token.length !== 187 || token === "invalid signature") {
       throw new Error("Token inválido")
     }
 
-    const registeredUser = await this.userDatabase.findUserById(id)
-
-    if (!registeredUser) {
+    const registeredUser = await this.userDatabase.findUserById(tokenData.id)
+    
+    const registeredFollower = await this.userDatabase.findUserById(id)
+    
+    if (!registeredUser || !registeredFollower) {
       throw new Error("Usuário não encontrado")
     }
 
-    const tokenData = this.authenticator.getTokenData(token)
-
-    if (tokenData.id === registeredUser.id) {
+    if (tokenData.id === id) {
       throw new Error("É necessário passar 'ids' diferentes para desfazer amizade")
     }
 
@@ -144,5 +148,27 @@ export class UserBusiness {
 
     const unfollowedUser = await this.userDatabase.unfollowUser(id, tokenData.id)
 
+  }
+
+  feed = async (token: string) => {
+    if(!token){
+      throw new Error("É necessário passar um 'token'")
+    }
+        
+    if(token.length < 187){
+      throw new Error("Token inválido")
+    }
+    
+    const tokenData = this.authenticator.getTokenData(token)
+
+    const registeredUser = await this.userDatabase.findUserById(tokenData.id)
+
+    if(!registeredUser){
+      throw new Error("Usuário não encontrado. Verifique as informações passadas via 'token'")
+    }
+
+    const result = await this.userDatabase.userFeed(tokenData.id)
+
+    return result
   }
 }

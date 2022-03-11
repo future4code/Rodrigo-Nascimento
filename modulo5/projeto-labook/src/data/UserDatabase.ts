@@ -10,6 +10,7 @@ type FindUserResponse = {
 
 export class UserDatabase extends BaseDatabase {
   protected TABLE_USERS = "labook_users"
+  protected TABLE_POSTS = "labook_posts"
   protected TABLE_FOLLOWERS = "labook_followers"
 
   createUser = async (user: User) => {
@@ -88,6 +89,27 @@ export class UserDatabase extends BaseDatabase {
 
     } catch (error: any) {
       throw new Error(error.message || error.sqlMessage)
+    }
+  }
+
+  userFeed = async (id: string) => {
+    try {
+      const result = await BaseDatabase.connection.raw(`
+        select labook_posts.id as "id", labook_posts.description as "description",
+        labook_posts.created_at as "createdAt", labook_posts.img_url as "imgUrl",
+        labook_posts.type as "type", labook_posts.user_id as "creatorId", labook_users.name as "creatorName"
+        from labook_posts 
+        join labook_users
+        join labook_followers 
+        on (labook_followers.followed_id = labook_posts.user_id) 
+        and (labook_followers.followed_id = labook_users.id)
+        where labook_followers.follower_id = "${id}"
+        order by labook_posts.created_at DESC
+    `)
+      return result[0]
+        
+    } catch (error: any) {
+      throw new Error(error.message || error.sqlMessage)     
     }
   }
 }
