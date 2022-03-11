@@ -19,3 +19,4 @@ export const userRouter = express.Router()
 
 userRouter.post("/login", userController.login)
 userRouter.post("/signup", userController.signup)
+userRouter.post("/follow/:id", userController.followUser)

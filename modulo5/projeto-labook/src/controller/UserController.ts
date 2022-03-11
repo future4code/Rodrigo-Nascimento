@@ -53,4 +53,20 @@ export class UserController {
       res.status(400).send("Erro no login")
     }
   }
+
+  followUser = async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    const token = req.headers.authorization as string
+
+    try {
+      const result = await this.userBusiness.followUser(id, token)
+
+      res.send({message: "Amizade criada com sucesso!"})
+      
+    } catch (error: any) {
+      if(error.message) return res.status(400).send(error.message)
+      res.status(400).send("Erro no followUser")
+    }
+  }
 }

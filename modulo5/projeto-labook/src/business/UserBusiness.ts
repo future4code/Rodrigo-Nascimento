@@ -72,4 +72,43 @@ export class UserBusiness {
 
     return token
   }
+
+  followUser = async(id: string, token: string) => {
+    const userId = id
+    
+    if(id === ":id"){
+      throw new Error("É necessário informar um 'id'")
+    }
+
+    if(!token) {
+      throw new Error("É necessário passar um 'token'") 
+    }
+    
+    if(token === "invalid token") {
+      throw new Error("Token inválido") 
+    }
+    
+    const registeredUser = await this.userDatabase.findUserById(id)
+
+    if(!registeredUser){
+      throw new Error("Usuário não encontrado")
+    }
+
+    const tokenData = await this.authenticator.getTokenData(token)
+ 
+    if(tokenData.id === registeredUser.id){
+      throw new Error("É necessário passar 'ids' diferentes para pedidos de amizade")
+    }
+
+    // const teste = await this.userDatabase.findFollowers()
+    // // console.log(teste)
+
+    // const userFilter = teste.filter((user) => {
+    //   console.log(user.follower_id)
+    // })
+
+    const userToFollow = await this.userDatabase.followUser(tokenData.id, userId)
+
+    const followedUser = await this.userDatabase.followUser(userId, tokenData.id)
+  }
 }
