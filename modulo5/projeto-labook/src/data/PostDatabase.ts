@@ -30,11 +30,11 @@ export class PostDatabase extends BaseDatabase {
     }
   }
 
-  findPost = async (description: string) => {
+  findPostById = async (id: string) => {
     try {
       const result: FindPostResponse = await BaseDatabase.connection(this.TABLE_NAME)
-        .select()
-        .where({ description })
+        .select("description", "created_at as createdAt", "img_url as imgUrl", "type", "user_id as userId")
+        .where({ id })
 
       return result[0]
       
