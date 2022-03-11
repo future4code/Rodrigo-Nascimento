@@ -60,18 +60,16 @@ export class UserDatabase extends BaseDatabase {
     }
   }
 
-  findFollowers = async () => {
+  findUserFriends = async (userId: string, friendId: string) => {
     try {
       const result = await BaseDatabase.connection(this.TABLE_FOLLOWERS)
-        .select("follower_id", "followed_id")
-        .count("*")
-        .groupBy(
-          "follower_id",
-          "followed_id"
-        )
-        .having("count(*)", "=", "1")
-      
-      return result
+        .select()
+        .where({
+          follower_id: userId,
+          followed_id: friendId
+        })
+        
+      return result[0]
       
     } catch (error: any) {
       throw new Error(error.message || error.sqlMessage)      

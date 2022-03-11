@@ -11,7 +11,7 @@ export class UserBusiness {
     private idGenerator: IdGenerator,
     private hashManager: HashManager,
     private authenticator: Authenticator
-  ) {}
+  ) { }
 
   signup = async (input: SignupInputDTO) => {
     const { name, email, password } = input
@@ -73,42 +73,43 @@ export class UserBusiness {
     return token
   }
 
-  followUser = async(id: string, token: string) => {
-    const userId = id
-    
-    if(id === ":id"){
-      throw new Error("É necessário informar um 'id'")
+  followUser = async (id: string, token: string) => {
+    if (id === ":id") {
+      throw new Error("É necessário informar um 'userId'")
     }
 
-    if(!token) {
-      throw new Error("É necessário passar um 'token'") 
+    if (!token) {
+      throw new Error("É necessário passar um 'token'")
     }
-    
-    if(token === "invalid token") {
-      throw new Error("Token inválido") 
+
+    if (token === "invalid token" || token.length < 187) {
+      throw new Error("Token inválido")
     }
-    
+
+    if (token == "Unexpected token") {
+      throw new Error("Token inválido")
+    }
+
     const registeredUser = await this.userDatabase.findUserById(id)
 
-    if(!registeredUser){
+    if (!registeredUser) {
       throw new Error("Usuário não encontrado")
     }
 
-    const tokenData = await this.authenticator.getTokenData(token)
- 
-    if(tokenData.id === registeredUser.id){
+    const tokenData = this.authenticator.getTokenData(token)
+
+    if (tokenData.id === registeredUser.id) {
       throw new Error("É necessário passar 'ids' diferentes para pedidos de amizade")
     }
 
-    // const teste = await this.userDatabase.findFollowers()
-    // // console.log(teste)
+    const isAlreadyAFriend = await this.userDatabase.findUserFriends(tokenData.id, id)
 
-    // const userFilter = teste.filter((user) => {
-    //   console.log(user.follower_id)
-    // })
+    if (isAlreadyAFriend) {
+      throw new Error("Essa amizade já existe")
+    }
 
-    const userToFollow = await this.userDatabase.followUser(tokenData.id, userId)
+    const userToFollow = await this.userDatabase.followUser(tokenData.id, id)
 
-    const followedUser = await this.userDatabase.followUser(userId, tokenData.id)
+    const followedUser = await this.userDatabase.followUser(id, tokenData.id)
   }
 }
