@@ -93,7 +93,7 @@ export class UserController {
     try {
       const result = await this.userBusiness.feed(token)
 
-      res.send({message: result})
+      res.send({ result })
       
     } catch (error: any) {
       if(error.message === "invalid token") return res.status(400).send("Token inválido")    
