@@ -46,7 +46,7 @@ export class PostController {
     }
   }
 
-  getPostByType = async(req: Request, res: Response) => {
+  getPostByType = async (req: Request, res: Response) => {
     const type = req.query.type as string
 
     try {
@@ -56,6 +56,22 @@ export class PostController {
     } catch (error: any) {
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no getPostById")
+    }
+  }
+
+  likePost = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const token = req.headers.authorization as string
+
+    try {
+      const result = await this.postBusiness.likePost(id, token)
+
+      res.send({message: "Post curtido"})
+      
+    } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
+      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message) return res.status(400).send(error.message)
     }
   }
 }

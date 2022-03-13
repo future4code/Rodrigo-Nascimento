@@ -8,7 +8,7 @@ export class PostBusiness {
     private postDatabase: PostDatabase,
     private idGenerator: IdGenerator,
     private authenticator: Authenticator
-  ) {}
+  ) { }
 
   createPost = async (input: CreatePostInputDTO, token: string) => {
     const { description, imgUrl, type } = input
@@ -49,18 +49,44 @@ export class PostBusiness {
   }
 
   getPostByType = async (type: string) => {
-    if(!type) {
+    if (!type) {
       throw new Error("É necessário informar um 'type'")
     }
 
     const inputType = type.toUpperCase()
 
-    if(inputType !== "NORMAL" && inputType !== "EVENTO"){
+    if (inputType !== "NORMAL" && inputType !== "EVENTO") {
       throw new Error("É necessário passar um 'type' como 'normal' ou 'evento'")
     }
 
     const result = await this.postDatabase.getAllPostsByType(type)
 
     return result
+  }
+
+  likePost = async (id: string, token: string) => {
+    if (id === ":id") {
+      throw new Error("Informe um 'id' válido")
+    }
+
+    if (!id || !token) {
+      throw new Error("Informe um 'id' e um 'token'")
+    }
+
+    const findPostById = await this.getPostById(id)
+
+    if (!findPostById) {
+      throw new Error("Post não encontrado")
+    }
+
+    const tokenData = this.authenticator.getTokenData(token)
+
+    const registeredLike = await this.postDatabase.getPostByLikes(id, tokenData.id)
+
+    if (registeredLike) {
+      throw new Error("Post já curtido pelo usuário")
+    }
+
+    const result = await this.postDatabase.likePost(id, tokenData.id)
   }
 }
