@@ -13,6 +13,7 @@ type FindPostResponse = {
 export class PostDatabase extends BaseDatabase {
   protected TABLE_POSTS = "labook_posts"
   protected TABLE_LIKES = "labook_likes"
+  protected TABLE_COMMENTS = "labook_comments"
 
   createPost = async (post: Post) => {
     try {
@@ -100,6 +101,21 @@ export class PostDatabase extends BaseDatabase {
       
     } catch (error: any){
       throw new Error(error.message || error.sqlMessage)  
+    }
+  }
+
+  createComment = async (id: string, postId: string, comment: string, userId: string) => {
+    try {
+      const result = await BaseDatabase.connection(this.TABLE_COMMENTS)
+        .insert({
+          id,
+          post_id: postId,
+          comment,
+          user_id: userId
+        })
+      
+    } catch (error: any) {
+      throw new Error(error.message || error.sqlMessage)      
     }
   }
 }

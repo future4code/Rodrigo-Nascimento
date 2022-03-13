@@ -123,4 +123,32 @@ export class PostBusiness {
       const result = await this.postDatabase.toggleLikes(id, tokenData.id, toggle)
     }
   }
+
+  createComment = async (id: string, comment: string, token: string) => {
+    const postId = id
+
+    if(id === ":id"){
+      throw new Error("Informe um 'id' válido")
+    }
+
+    if(!id || !comment || !token){
+      throw new Error("Informe um 'id', um 'comment' e um 'token'")
+    }
+
+    const findPostById = await this.getPostById(id)
+
+    if(!findPostById){
+      throw new Error("Post não encontrado")
+    }
+
+    const tokenData = this.authenticator.getTokenData(token)
+
+    if(!tokenData){
+      throw new Error("Informe um 'token' válido")
+    }
+
+    const idGenerator = this.idGenerator.generate()
+
+    const result = await this.postDatabase.createComment(idGenerator ,postId, comment, tokenData.id)
+  }
 }

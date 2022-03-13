@@ -90,4 +90,22 @@ export class PostController {
       if(error.message) return res.status(400).send(error.message)
     }
   }
+
+  createComment = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const { comment } = req.body
+    const token = req.headers.authorization as string
+
+    try {
+      const result = await this.postBusiness.createComment(id, comment, token)
+
+      res.send({message: "Comentário criado com sucesso!"})
+      
+    } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
+      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message) return res.status(400).send(error.message)
+    }
+  }
+
 }
