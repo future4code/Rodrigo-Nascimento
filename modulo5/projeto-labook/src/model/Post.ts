@@ -37,3 +37,31 @@ export type CreatePostInputDTO = {
   imgUrl: string,
   type: PostType,
 }
+
+export type FindPostResponse = {
+  id: string,
+  description: string,
+  createdAt: string,
+  imgUrl: string,
+  type: PostType,
+  userId: string
+}[]
+
+export type Like = {
+  postId: string,
+  userId: string,
+  toggle: string
+}
+
+export type FindLikeResponse = {
+  postId: string,
+  userId: string,
+  toggle: string
+}[]
+
+export type Comment = {
+  id: string,
+  postId: string,
+  comment: string,
+  userId: string
+}

@@ -86,11 +86,11 @@ export class PostBusiness {
     const registeredLike = await this.postDatabase.getPostByLikes(id, tokenData.id)
 
     if (!registeredLike) {
-      const result = await this.postDatabase.createLike(id, tokenData.id, toggle)
-    } else if (registeredLike.toggle_like === "1") {
+      const result = await this.postDatabase.createLike({postId: id, userId: tokenData.id, toggle})
+    } else if (registeredLike.toggle === "1") {
       throw new Error("Post já curtido pelo usuário")
     } else {
-      const result = await this.postDatabase.toggleLikes(id, tokenData.id, toggle)
+      const result = await this.postDatabase.toggleLikes({postId: id, userId: tokenData.id, toggle})
     }
   }
 
@@ -116,11 +116,11 @@ export class PostBusiness {
     const registeredLike = await this.postDatabase.getPostByLikes(id, tokenData.id)
 
     if (!registeredLike) {
-      const result = await this.postDatabase.createLike(id, tokenData.id, toggle)
-    } else if (registeredLike.toggle_like === "-1") {
+      const result = await this.postDatabase.createLike({postId: id, userId: tokenData.id, toggle})
+    } else if (registeredLike.toggle === "-1") {
       throw new Error("Esse post já está descurtido")
     } else {
-      const result = await this.postDatabase.toggleLikes(id, tokenData.id, toggle)
+      const result = await this.postDatabase.toggleLikes({postId: id, userId: tokenData.id, toggle})
     }
   }
 
@@ -149,6 +149,6 @@ export class PostBusiness {
 
     const idGenerator = this.idGenerator.generate()
 
-    const result = await this.postDatabase.createComment(idGenerator ,postId, comment, tokenData.id)
+    const result = await this.postDatabase.createComment({id: idGenerator ,postId, comment, userId: tokenData.id})
   }
 }

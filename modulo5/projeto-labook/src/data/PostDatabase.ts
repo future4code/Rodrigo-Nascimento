@@ -1,14 +1,5 @@
-import { Post, PostType } from "../model/Post"
+import { Post, PostType, FindPostResponse, Like, Comment, FindLikeResponse } from "../model/Post"
 import { BaseDatabase } from "./BaseDatabase"
-
-type FindPostResponse = {
-  id: string,
-  description: string,
-  createdAt: string,
-  imgUrl: string,
-  type: PostType,
-  userId: string
-}[]
 
 export class PostDatabase extends BaseDatabase {
   protected TABLE_POSTS = "labook_posts"
@@ -60,8 +51,12 @@ export class PostDatabase extends BaseDatabase {
 
   getPostByLikes = async (id: string, userId: string) => {
     try {
-      const result = await BaseDatabase.connection(this.TABLE_LIKES)
+      const result: FindLikeResponse = await BaseDatabase.connection(this.TABLE_LIKES)
         .select()
+        .where({
+          post_id: id,
+          user_id: userId
+        })
 
       return result[0]
       
@@ -70,13 +65,13 @@ export class PostDatabase extends BaseDatabase {
     }
   }
 
-  createLike = async (id: string, userId: string, toggle: string) => {
+  createLike = async (like: Like) => {
     try {
       const result = await BaseDatabase.connection(this.TABLE_LIKES)
         .insert({
-          toggle_like: toggle,
-          post_id: id,
-          user_id: userId
+          toggle_like: like.toggle,
+          post_id: like.postId,
+          user_id: like.userId
         })
       
     } catch (error: any){
@@ -84,15 +79,15 @@ export class PostDatabase extends BaseDatabase {
     }
   }
 
-  toggleLikes = async (id: string, userId: string, toggle: string) => {
+  toggleLikes = async (like: Like) => {
     try {
       const result = await BaseDatabase.connection(this.TABLE_LIKES)
         .update({
-          toggle_like: toggle
+          toggle_like: like.toggle
         })
         .where({
-          post_id: id,
-          user_id: userId
+          post_id: like.postId,
+          user_id: like.userId
         })
             
     } catch (error: any){
@@ -100,14 +95,14 @@ export class PostDatabase extends BaseDatabase {
     }
   }
 
-  createComment = async (id: string, postId: string, comment: string, userId: string) => {
+  createComment = async (comment: Comment) => {
     try {
       const result = await BaseDatabase.connection(this.TABLE_COMMENTS)
         .insert({
-          id,
-          post_id: postId,
+          id: comment.id,
+          post_id: comment.postId,
           comment,
-          user_id: userId
+          user_id: comment.userId
         })
       
     } catch (error: any) {
