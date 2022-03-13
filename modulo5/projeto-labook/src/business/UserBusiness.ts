@@ -150,7 +150,7 @@ export class UserBusiness {
 
   }
 
-  feed = async (token: string) => {
+  feed = async (token: string, page: string) => {
     if(!token){
       throw new Error("É necessário passar um 'token'")
     }
@@ -158,6 +158,14 @@ export class UserBusiness {
     if(token.length < 187){
       throw new Error("Token inválido")
     }
+
+    if(!page) {
+      throw new Error("É necessário passar o valor de 'page'")
+    }
+
+    const resultsPerPage = 5
+
+    const offset = resultsPerPage * (Number(page) -1)
     
     const tokenData = this.authenticator.getTokenData(token)
 
@@ -167,7 +175,7 @@ export class UserBusiness {
       throw new Error("Usuário não encontrado. Verifique as informações passadas via 'token'")
     }
 
-    const result = await this.userDatabase.userFeed(tokenData.id)
+    const result = await this.userDatabase.userFeed(tokenData.id, offset, resultsPerPage)
 
     return result
   }

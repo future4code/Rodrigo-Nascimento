@@ -79,8 +79,6 @@ export class PostDatabase extends BaseDatabase {
           user_id: userId
         })
       
-      return result
-      
     } catch (error: any){
       throw new Error(error.message || error.sqlMessage)  
     }
@@ -96,9 +94,7 @@ export class PostDatabase extends BaseDatabase {
           post_id: id,
           user_id: userId
         })
-      
-      return result
-      
+            
     } catch (error: any){
       throw new Error(error.message || error.sqlMessage)  
     }

@@ -91,9 +91,10 @@ export class UserController {
 
   feed = async (req: Request, res: Response) => {
     const token = req.headers.authorization as string
+    const page = req.query.page as string
 
     try {
-      const result = await this.userBusiness.feed(token)
+      const result = await this.userBusiness.feed(token, page)
 
       res.send({ result })
       

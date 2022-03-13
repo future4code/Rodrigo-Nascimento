@@ -86,7 +86,7 @@ export class UserDatabase extends BaseDatabase {
     }
   }
 
-  userFeed = async (id: string) => {
+  userFeed = async (id: string, offset: number, limit: number) => {
     try {
       const result: FeedResponse = await BaseDatabase.connection.raw(`
         select labook_posts.id as "id", labook_posts.description as "description",
@@ -99,6 +99,8 @@ export class UserDatabase extends BaseDatabase {
         and (labook_followers.followed_id = labook_users.id)
         where labook_followers.follower_id = "${id}"
         order by labook_posts.created_at DESC
+        limit ${limit}
+        offset ${offset}
     `)
 
       return result[0]
