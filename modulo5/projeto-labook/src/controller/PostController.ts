@@ -26,7 +26,7 @@ export class PostController {
       
     } catch (error: any) {
       if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
-      if(error.message === "invalid token") return res.status(400).send("Token inválido")
+      if(error.message === "invalid token" || error.message === "jwt malformed") return res.status(400).send("Token inválido")
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no createPost")
     }
@@ -70,7 +70,7 @@ export class PostController {
       
     } catch (error: any) {
       if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
-      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message === "invalid token" || error.message === "jwt malformed") return res.status(400).send("Token inválido")    
       if(error.message) return res.status(400).send(error.message)
     }
   }
@@ -86,7 +86,7 @@ export class PostController {
       
     } catch (error: any) {
       if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
-      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message === "invalid token" || error.message === "jwt malformed") return res.status(400).send("Token inválido")    
       if(error.message) return res.status(400).send(error.message)
     }
   }
@@ -103,7 +103,7 @@ export class PostController {
       
     } catch (error: any) {
       if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
-      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message === "invalid token" || error.message === "jwt malformed") return res.status(400).send("Token inválido")    
       if(error.message) return res.status(400).send(error.message)
     }
   }
