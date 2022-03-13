@@ -25,6 +25,7 @@ export class PostController {
       res.send({message: "Post criado com sucesso!"})
       
     } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
       if(error.message === "invalid token") return res.status(400).send("Token inválido")
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no createPost")
@@ -39,6 +40,19 @@ export class PostController {
 
       res.send(post)
       
+    } catch (error: any) {
+      if(error.message) return res.status(400).send(error.message)
+      res.status(400).send("Erro no getPostById")
+    }
+  }
+
+  getPostByType = async(req: Request, res: Response) => {
+    const type = req.query.type as string
+
+    try {
+      const result = await this.postBusiness.getPostByType(type)
+
+      res.send({result})
     } catch (error: any) {
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no getPostById")

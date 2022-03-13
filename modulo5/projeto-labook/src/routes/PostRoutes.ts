@@ -15,5 +15,6 @@ const postController = new PostController(
 
 export const postRouter = express.Router()
 
+postRouter.get("/search", postController.getPostByType)
 postRouter.get("/:id", postController.getPostById)
 postRouter.post("/create", postController.createPost)

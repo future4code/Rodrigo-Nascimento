@@ -42,4 +42,17 @@ export class PostDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage) 
     }
   }
+
+  getAllPostsByType = async (type: string) => {
+    try {
+      const result: FindPostResponse = await BaseDatabase.connection(this.TABLE_NAME)
+        .select()
+        .orderBy("created_at", "DESC")
+        .where({type: type})
+      
+      return result
+    } catch (error: any) {
+      throw new Error(error.message || error.sqlMessage) 
+    }
+  }
 }

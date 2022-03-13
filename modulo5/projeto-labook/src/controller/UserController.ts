@@ -65,6 +65,7 @@ export class UserController {
       res.send({message: "Amizade criada com sucesso!"})
       
     } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no followUser")
     }
@@ -81,6 +82,7 @@ export class UserController {
       res.send({message: "Amizade desfeita com sucesso!"})
       
     } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
       if(error.message === "invalid token") return res.status(400).send("Token inválido")
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no unfollowUser")
@@ -96,6 +98,7 @@ export class UserController {
       res.send({ result })
       
     } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
       if(error.message === "invalid token") return res.status(400).send("Token inválido")    
       if(error.message) return res.status(400).send(error.message)
       res.status(400).send("Erro no unfollowUser")

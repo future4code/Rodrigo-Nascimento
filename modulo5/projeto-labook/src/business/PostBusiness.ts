@@ -47,4 +47,20 @@ export class PostBusiness {
 
     return result
   }
+
+  getPostByType = async (type: string) => {
+    if(!type) {
+      throw new Error("É necessário informar um 'type'")
+    }
+
+    const inputType = type.toUpperCase()
+
+    if(inputType !== "NORMAL" && inputType !== "EVENTO"){
+      throw new Error("É necessário passar um 'type' como 'normal' ou 'evento'")
+    }
+
+    const result = await this.postDatabase.getAllPostsByType(type)
+
+    return result
+  }
 }
