@@ -1,12 +1,6 @@
-import { User } from "../model/User";
+import { PostType } from "../model/Post";
+import { User, FeedResponse, FindUserResponse, FindFriendResponse } from "../model/User";
 import { BaseDatabase } from "./BaseDatabase";
-
-type FindUserResponse = {
-  id: string,
-  name: string,
-  email: string,
-  password: string
-}[]
 
 export class UserDatabase extends BaseDatabase {
   protected TABLE_USERS = "labook_users"
@@ -63,7 +57,7 @@ export class UserDatabase extends BaseDatabase {
 
   findUserFriends = async (userId: string, friendId: string) => {
     try {
-      const result = await BaseDatabase.connection(this.TABLE_FOLLOWERS)
+      const result: FindFriendResponse | undefined = await BaseDatabase.connection(this.TABLE_FOLLOWERS)
         .select()
         .where({
           follower_id: userId,
@@ -94,7 +88,7 @@ export class UserDatabase extends BaseDatabase {
 
   userFeed = async (id: string) => {
     try {
-      const result = await BaseDatabase.connection.raw(`
+      const result: FeedResponse = await BaseDatabase.connection.raw(`
         select labook_posts.id as "id", labook_posts.description as "description",
         labook_posts.created_at as "createdAt", labook_posts.img_url as "imgUrl",
         labook_posts.type as "type", labook_posts.user_id as "creatorId", labook_users.name as "creatorName"
@@ -106,6 +100,7 @@ export class UserDatabase extends BaseDatabase {
         where labook_followers.follower_id = "${id}"
         order by labook_posts.created_at DESC
     `)
+
       return result[0]
         
     } catch (error: any) {
