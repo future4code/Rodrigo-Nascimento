@@ -69,14 +69,34 @@ export class PostDatabase extends BaseDatabase {
     }
   }
 
-  likePost = async (id: string, userId: string) => {
+  createLike = async (id: string, userId: string, toggle: string) => {
     try {
       const result = await BaseDatabase.connection(this.TABLE_LIKES)
         .insert({
+          toggle_like: toggle,
           post_id: id,
-          user_id: userId,
-          toggle_like: "1"
+          user_id: userId
         })
+      
+      return result
+      
+    } catch (error: any){
+      throw new Error(error.message || error.sqlMessage)  
+    }
+  }
+
+  toggleLikes = async (id: string, userId: string, toggle: string) => {
+    try {
+      const result = await BaseDatabase.connection(this.TABLE_LIKES)
+        .update({
+          toggle_like: toggle
+        })
+        .where({
+          post_id: id,
+          user_id: userId
+        })
+      
+      return result
       
     } catch (error: any){
       throw new Error(error.message || error.sqlMessage)  

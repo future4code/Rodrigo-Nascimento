@@ -66,7 +66,23 @@ export class PostController {
     try {
       const result = await this.postBusiness.likePost(id, token)
 
-      res.send({message: "Post curtido"})
+      res.send({message: "Curtido"})
+      
+    } catch (error: any) {
+      if(error.message === "jwt expired") return res.status(400).send("Token expirou") 
+      if(error.message === "invalid token") return res.status(400).send("Token inválido")    
+      if(error.message) return res.status(400).send(error.message)
+    }
+  }
+
+  dislikePost = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const token = req.headers.authorization as string
+
+    try {
+      const result = await this.postBusiness.dislikePost(id, token)
+
+      res.send({message: "Descurtido"})
       
     } catch (error: any) {
       if(error.message === "jwt expired") return res.status(400).send("Token expirou") 

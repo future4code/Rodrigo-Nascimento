@@ -65,6 +65,8 @@ export class PostBusiness {
   }
 
   likePost = async (id: string, token: string) => {
+    const toggle = "1"
+
     if (id === ":id") {
       throw new Error("Informe um 'id' válido")
     }
@@ -83,10 +85,42 @@ export class PostBusiness {
 
     const registeredLike = await this.postDatabase.getPostByLikes(id, tokenData.id)
 
-    if (registeredLike) {
+    if (!registeredLike) {
+      const result = await this.postDatabase.createLike(id, tokenData.id, toggle)
+    } else if (registeredLike.toggle_like === "1") {
       throw new Error("Post já curtido pelo usuário")
+    } else {
+      const result = await this.postDatabase.toggleLikes(id, tokenData.id, toggle)
+    }
+  }
+
+  dislikePost = async (id: string, token: string) => {
+    const toggle = "-1"
+
+    if (id === ":id") {
+      throw new Error("Informe um 'id' válido")
     }
 
-    const result = await this.postDatabase.likePost(id, tokenData.id)
+    if (!id || !token) {
+      throw new Error("Informe um 'id' e um 'token'")
+    }
+
+    const findPostById = await this.getPostById(id)
+
+    if (!findPostById) {
+      throw new Error("Post não encontrado")
+    }
+
+    const tokenData = this.authenticator.getTokenData(token)
+
+    const registeredLike = await this.postDatabase.getPostByLikes(id, tokenData.id)
+
+    if (!registeredLike) {
+      const result = await this.postDatabase.createLike(id, tokenData.id, toggle)
+    } else if (registeredLike.toggle_like === "-1") {
+      throw new Error("Esse post já está descurtido")
+    } else {
+      const result = await this.postDatabase.toggleLikes(id, tokenData.id, toggle)
+    }
   }
 }
