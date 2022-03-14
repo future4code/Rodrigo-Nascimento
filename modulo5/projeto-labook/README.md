@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="460" height="300" src="https://cdn-icons.flaticon.com/png/512/4141/premium/4141914.png?token=exp=1647219866~hmac=9a40ff2e593df842cd1a7bc4d5f05ab8">
+  <img width="460" height="300" src="https://images.unsplash.com/photo-1554177255-61502b352de3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80">
 </p>
 
 ## Labook
