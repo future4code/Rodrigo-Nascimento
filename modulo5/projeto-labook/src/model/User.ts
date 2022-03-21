@@ -30,3 +30,14 @@ export type FeedResponse = {
   creatorId: string,
   creatorName: string
 }[]
+
+export type SignupInputDTO = {
+  name: string,
+  email: string,
+  password: string
+}
+
+export type LoginInputDTO = {
+  email: string,
+  password: string
+}

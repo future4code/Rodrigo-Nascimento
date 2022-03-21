@@ -1,16 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-
-export type SignupInputDTO = {
-  name: string,
-  email: string,
-  password: string
-}
-
-export type LoginInputDTO = {
-  email: string,
-  password: string
-}
+import { LoginInputDTO, SignupInputDTO } from "../model/User";
 
 export class UserController {
   constructor(

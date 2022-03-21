@@ -13,7 +13,6 @@ Projeto Labook foi feito com o intuito de simular uma API de rede social.
 - Feed do usuário
 - Fazer amizade
 - Desfazer amizade
-
 - Criar post
 - Criar comentário
 - Curtir post
