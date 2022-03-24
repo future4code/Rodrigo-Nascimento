@@ -11,9 +11,12 @@ export class DogWalkingBusiness {
   ) { }
 
   getAllTasks = async (future: string) => {
-    if (future) {
-      throw new Error("Só é permitida uma opção de filtro. Escolha entre 'todos' ou 'futuros'.")
-    }
+    // if (future) {
+    //   throw new Error("Só é permitida uma opção de filtro. Escolha entre 'todos' ou 'futuros'.")
+    // }
+    const result = await this.dogWalkingDatabase.getAllWalks()
+
+    return result
   }
 
   createWalk = async (input: CreateWalk) => {

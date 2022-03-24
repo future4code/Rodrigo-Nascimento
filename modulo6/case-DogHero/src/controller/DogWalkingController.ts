@@ -13,7 +13,7 @@ export class DogWalkingController {
     try {
       const result = await this.dogWalkingBusiness.getAllTasks(futuros)
 
-      // res.send({teste: "teste"})
+      res.send({result})
     
 
     } catch (error: any) {
