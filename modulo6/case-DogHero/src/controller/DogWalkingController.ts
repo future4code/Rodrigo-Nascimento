@@ -8,11 +8,10 @@ export class DogWalkingController {
   ) {}
 
   index = async (req: Request, res: Response) => {
-    const todos = req.query.todos as string
     const futuros = req.query.futuros as string
    
     try {
-      const result = await this.dogWalkingBusiness.getAllTasks(todos, futuros)
+      const result = await this.dogWalkingBusiness.getAllTasks(futuros)
 
       // res.send({teste: "teste"})
     

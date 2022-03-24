@@ -9,6 +9,13 @@ export class Validator {
     }
   }
 
+  public isTheTimeFormatValid = (startTime: string, endTime: string) => {
+    const regex = /^(2[0-3]|[0-1]?[\d]):[0-5][\d]$/
+    if (regex.test(startTime) && regex.test(endTime)) {
+      return true
+    }
+  }
+
   public totalPricePerPetIsCorrect = (duration: string, pets: number) => {
     const pricePerHour = 35
     const pricePerHalfAnHour = 25
@@ -51,7 +58,7 @@ export class Validator {
     const startInMinutes = Number(arrStart[0]) * 60 + Number(arrStart[1])
     const endInMinutes = Number(arrEnd[0]) * 60 + Number(arrEnd[1])
 
-    if(endInMinutes - 30 === startInMinutes || endInMinutes - 60 === startInMinutes){
+    if (endInMinutes - 30 === startInMinutes || endInMinutes - 60 === startInMinutes) {
       return true
     }
   }
@@ -62,5 +69,4 @@ export class Validator {
 
     return mysqlDate
   }
-
 }

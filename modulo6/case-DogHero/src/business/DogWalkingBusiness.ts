@@ -10,8 +10,8 @@ export class DogWalkingBusiness {
     private dogWalkingDatabase: DogWalkingDatabase
   ) { }
 
-  getAllTasks = async (past: string, future: string) => {
-    if (past && future) {
+  getAllTasks = async (future: string) => {
+    if (future) {
       throw new Error("Só é permitida uma opção de filtro. Escolha entre 'todos' ou 'futuros'.")
     }
   }
@@ -23,6 +23,10 @@ export class DogWalkingBusiness {
 
     if (this.validator.givenDateIsGreaterThanTodayShouldReturnTrue(input.date) !== true) {
       throw new Error("Os passeios só podem ser criados no dia posterior ao dia de hoje")
+    }
+    
+    if(this.validator.isTheTimeFormatValid(input.start_time, input.end_time) !== true){
+      throw new Error("Informe um formato de data válido.")
     }
 
     if (input.duration !== Duration.HALF_HOUR && input.duration !== Duration.ONE_HOUR){
