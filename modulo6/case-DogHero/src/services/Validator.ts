@@ -56,4 +56,11 @@ export class Validator {
     }
   }
 
+  public validDateForMysql = (date: string) => {
+    const newDate = date.split("/")
+    const mysqlDate = newDate[2] + "-" + newDate[1] + "-" + newDate[0]
+
+    return mysqlDate
+  }
+
 }

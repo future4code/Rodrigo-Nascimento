@@ -47,21 +47,12 @@ export class DogWalkingBusiness {
 
     const id = this.idGenerator.generate()
 
-    const dogWalking = new DogWalking(id, input.date, input.price, input.duration, input.latitude, input.longitude, input.pets, input.start_time, input.end_time)
+    const newDate = this.validator.validDateForMysql(input.date)
+
+    const dogWalking = new DogWalking(id, newDate, input.price, input.duration, input.latitude, input.longitude, input.pets, input.start_time, input.end_time)
 
     const result = await this.dogWalkingDatabase.createWalk(dogWalking)
 
-    
-
-       
-
-
-    
-
-
-
-    
-
-
+    return result
   }
 }

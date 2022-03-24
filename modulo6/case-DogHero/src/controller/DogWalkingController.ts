@@ -38,9 +38,12 @@ export class DogWalkingController {
 
     try {
       const result = await this.dogWalkingBusiness.createWalk(input)
+
+      res.send({message: "Passeio cadastrado com sucesso!"})
+
       
     } catch (error: any) {
-      res.status(400).send(error.message)
+      res.status(400).send(error.message || error.sqlMessage)
     }
   }
 
