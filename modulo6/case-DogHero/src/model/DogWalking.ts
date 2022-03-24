@@ -1,7 +1,6 @@
 export class DogWalking {
   constructor(
     private id: string,
-    private status: Status,
     private date: string,
     private price: number,
     private duration: Duration,
@@ -11,6 +10,35 @@ export class DogWalking {
     private start_time: string,
     private end_time: string
     ){}
+
+    public getId(){
+      return this.id
+    }
+    public getDate(){
+      return this.date
+    }
+    public getPrice(){
+      return this.price
+    }
+    public getDuration(){
+      return this.duration
+    }
+    public getLatitute(){
+      return this.latitude
+    }
+    public getLongitute(){
+      return this.longitude
+    }
+    public getPets(){
+      return this.pets
+    }
+    public getStartTime(){
+      return this.start_time
+    }
+    public getEndTime(){
+      return this.end_time
+    }
+
 }
 
 export enum Duration {
