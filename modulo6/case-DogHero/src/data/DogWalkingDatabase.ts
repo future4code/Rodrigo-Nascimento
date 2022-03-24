@@ -7,6 +7,7 @@ export class DogWalkingDatabase extends BaseDatabase{
   getAllWalks = async () => {
     const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
+      .orderBy("date")
     
     return result
   }
@@ -15,6 +16,7 @@ export class DogWalkingDatabase extends BaseDatabase{
     const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
       .where({status: task})
+      .orderBy("date")
     
     return result
   }

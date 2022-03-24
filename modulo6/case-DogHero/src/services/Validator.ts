@@ -16,6 +16,13 @@ export class Validator {
     }
   }
 
+  public isDateFormatValid = (date: string) => {
+    const regex = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/
+    if(regex.test(date)){
+      return true
+    }
+  }
+
   public totalPricePerPetIsCorrect = (duration: string, pets: number) => {
     const pricePerHour = 35
     const pricePerHalfAnHour = 25
