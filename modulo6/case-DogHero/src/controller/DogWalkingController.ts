@@ -8,14 +8,13 @@ export class DogWalkingController {
   ) {}
 
   index = async (req: Request, res: Response) => {
-    const futuros = req.query.futuros as string
+    const buscar = req.query.buscar as string
    
     try {
-      const result = await this.dogWalkingBusiness.getAllTasks(futuros)
+      const result = await this.dogWalkingBusiness.getAllTasks(buscar)
 
       res.send({result})
     
-
     } catch (error: any) {
       res.status(400).send(error.message)
     }
@@ -40,7 +39,6 @@ export class DogWalkingController {
 
       res.send({message: "Passeio cadastrado com sucesso!"})
 
-      
     } catch (error: any) {
       res.status(400).send(error.message || error.sqlMessage)
     }

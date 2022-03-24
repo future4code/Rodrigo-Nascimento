@@ -8,8 +8,15 @@ export class DogWalkingDatabase extends BaseDatabase{
     const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
     
-    return result[0]
+    return result
+  }
 
+  getFutureOrPastWalks = async (task: string) => {
+    const result = await BaseDatabase.connection(this.TABLE_NAME)
+      .select()
+      .where({status: task})
+    
+    return result
   }
 
   createWalk = async (dogWalking: DogWalking) => {

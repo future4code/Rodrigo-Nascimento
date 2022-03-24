@@ -47,8 +47,8 @@ export enum Duration {
 }
 
 export enum Status {
-  REALIZADAS = "REALIZADAS",
-  FUTURAS = "FUTURAS"
+  REALIZADOS = "REALIZADOS",
+  FUTUROS = "FUTUROS"
 }
 
 export type CreateWalk = {

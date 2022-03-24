@@ -1,5 +1,5 @@
 import { DogWalkingDatabase } from "../data/DogWalkingDatabase"
-import { CreateWalk, DogWalking, Duration } from "../model/DogWalking"
+import { CreateWalk, DogWalking, Duration, Status } from "../model/DogWalking"
 import { IdGenerator } from "../services/IdGenerator"
 import { Validator } from "../services/Validator"
 
@@ -10,11 +10,13 @@ export class DogWalkingBusiness {
     private dogWalkingDatabase: DogWalkingDatabase
   ) { }
 
-  getAllTasks = async (future: string) => {
-    // if (future) {
-    //   throw new Error("Só é permitida uma opção de filtro. Escolha entre 'todos' ou 'futuros'.")
-    // }
-    const result = await this.dogWalkingDatabase.getAllWalks()
+  getAllTasks = async (input?: string) => {
+    let result
+    if(input?.toUpperCase() === Status.FUTUROS || input?.toUpperCase() === Status.REALIZADOS){
+      result = await this.dogWalkingDatabase.getFutureOrPastWalks(input.toUpperCase())
+    } else {
+      result = await this.dogWalkingDatabase.getAllWalks()
+    }
 
     return result
   }
