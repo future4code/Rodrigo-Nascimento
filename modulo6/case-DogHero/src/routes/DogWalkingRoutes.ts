@@ -19,4 +19,5 @@ export const dogWalkingRouter = express.Router()
 
 dogWalkingRouter.get("/", dogWalkingController.index)
 dogWalkingRouter.post("/criar", dogWalkingController.create)
+dogWalkingRouter.put("/editar/:id", dogWalkingController.edit)
 
