@@ -4,7 +4,7 @@ Case Dog Hero foi feito como exercício da primeira semana de cases da Labenu. A
  
 ### Funcionalidades 
  
-- Buscar todas os passeios
+- Buscar todos os passeios
 - Filtrar os passeios para retornar os "realizados" ou "agendados" 
 - Criar um passeio 
 - Atualizar o passeio 
