@@ -4,16 +4,16 @@ import { BaseDatabase } from "./BaseDatabase";
 export class DogWalkingDatabase extends BaseDatabase{
   protected TABLE_NAME = "dog_hero"
 
-  getAllWalks = async () => {
-    const result: DogWalkingResponse[] = await BaseDatabase.connection(this.TABLE_NAME)
+  getAllWalks = async (): Promise<DogWalkingResponse[]> => {
+    const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
       .orderBy("date")
     
     return result
   }
 
-  getFutureOrPastWalks = async (task: string) => {
-    const result: DogWalkingResponse[] = await BaseDatabase.connection(this.TABLE_NAME)
+  getFutureOrPastWalks = async (task: string): Promise<DogWalkingResponse[]> => {
+    const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
       .where({status: task})
       .orderBy("date")
@@ -21,7 +21,7 @@ export class DogWalkingDatabase extends BaseDatabase{
     return result
   }
 
-  createWalk = async (dogWalking: DogWalking) => {
+  createWalk = async (dogWalking: DogWalking): Promise<void> => {
     const newWalk = await BaseDatabase.connection(this.TABLE_NAME)
       .insert({
         id: dogWalking.getId(),
@@ -32,15 +32,15 @@ export class DogWalkingDatabase extends BaseDatabase{
       })
   }
 
-  getWalkById = async (id: string) => {
-    const result: DogWalkingResponse[] = await BaseDatabase.connection(this.TABLE_NAME)
+  getWalkById = async (id: string): Promise<DogWalkingResponse | undefined> => {
+    const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
       .where({id: id})
     
     return result[0]
   }
 
-  editWalt = async (input: EditWalk) => {
+  editWalk = async (input: EditWalk): Promise<void> => {
     const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
       .where({id: input.id})
@@ -48,8 +48,8 @@ export class DogWalkingDatabase extends BaseDatabase{
         status: input.status,
         price: input.price,
         duration: input.duration,
-        start_time: input.start_time,
-        end_time: input.end_time
+        start_time: input.startTime,
+        end_time: input.endTime
       })
   }
   

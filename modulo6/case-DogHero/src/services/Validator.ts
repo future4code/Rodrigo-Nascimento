@@ -29,7 +29,7 @@ export class Validator {
     const pricePerExtraPetsInHalfAnHour = 15
     const pricePerExtraPetsInOneHour = 20
     const pet = Number(pets)
-    let result = 0
+    let result
 
     if (duration === "30" && pet > 1) {
       result = pricePerHalfAnHour + (pet * pricePerExtraPetsInHalfAnHour)
@@ -50,11 +50,11 @@ export class Validator {
     return result
   }
 
-  public areLatituteAndLongituteValid = (latitute: string, longitute: string) => {
+  public areLatituteAndLongituteValid = (latitude: string, longitude: string) => {
     const regexLatitute = /^[+-]?(([1-8]?[0-9])(\.[0-9]{1,6})?|90(\.0{1,6})?)$/
     const regexLongitute = /^[+-]?((([1-9]?[0-9]|1[0-7][0-9])(\.[0-9]{1,6})?)|180(\.0{1,6})?)$/
 
-    if (regexLatitute.test(latitute) === true && regexLongitute.test(longitute) === true) {
+    if (regexLatitute.test(latitude) === true && regexLongitute.test(longitude) === true) {
       return true
     }
   }

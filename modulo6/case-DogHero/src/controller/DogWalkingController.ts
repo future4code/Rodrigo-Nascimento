@@ -21,7 +21,6 @@ export class DogWalkingController {
   }
 
   create = async (req: Request, res: Response) => {
-    // const { date, price, duration, latitude, longitude, pets, start_time, end_time } = req.body
     const { date, latitude, longitude, pets } = req.body
 
     const input: CreateWalk = {
@@ -43,15 +42,15 @@ export class DogWalkingController {
 
   edit = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { status, price, duration, start_time, end_time } = req.body
+    const { status, price, duration, startTime, endTime } = req.body
 
     const input: EditWalk = {
       id,
       status,
       price,
       duration,
-      start_time,
-      end_time
+      startTime,
+      endTime
     }
 
     try {

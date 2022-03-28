@@ -36,17 +36,6 @@ export enum Status {
   AGENDADO = "Agendado"
 }
 
-// export type CreateWalk = {
-//   date: string,
-//   price: number,
-//   duration: Duration,
-//   latitude: string,
-//   longitude: string,
-//   pets: number,
-//   start_time: string,
-//   end_time: string
-// }
-
 export type CreateWalk = {
   date: string,
   latitude: string,
@@ -59,8 +48,8 @@ export type EditWalk = {
   status: Status,
   price: number,
   duration: Duration,
-  start_time: string,
-  end_time: string
+  startTime: string,
+  endTime: string
 }
 
 export type DogWalkingResponse = {

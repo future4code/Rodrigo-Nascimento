@@ -36,7 +36,7 @@ export class DogWalkingBusiness {
   }
 
   createWalk = async (input: CreateWalk) => {
-    if (!input) {
+    if (!input.date || !input.latitude || !input.longitude || !input.pets) {
       throw new Error("É necessário passar as informações de: 'date', 'latitude', 'longitude', 'pets'")
     }
 
@@ -68,16 +68,16 @@ export class DogWalkingBusiness {
   }
 
   editWalk = async (input: EditWalk) => {
-    if (!input) {
-      throw new Error("É necessário informar 'id', 'status', 'price', 'duration', 'start_time', 'end_time'");
+    if (!input.id || !input.duration || !input.endTime || !input.price || !input.startTime || !input.status) {
+      throw new Error("É necessário informar 'id', 'status', 'price', 'duration', 'startTime', 'endTime'");
     }
-
-    if (this.validator.isTheTimeFormatValid(input.start_time, input.end_time) !== true) {
+  
+    if (this.validator.isTheTimeFormatValid(input.startTime, input.endTime) !== true) {
       throw new Error("Informe um formato de data válido.")
     }
 
-    if (this.validator.validateWalkTimes(input.start_time, input.end_time) !== true) {
-      throw new Error("'start_time' e 'end_time' precisam ter uma diferença de 30 ou 60 minutos. Informe os dados corretamente");
+    if (this.validator.validateWalkTimes(input.startTime, input.endTime) !== true) {
+      throw new Error("'startTime' e 'endTime' precisam ter uma diferença de 30 ou 60 minutos. Informe os dados corretamente");
     }
 
     if (input.duration !== Duration.HALF_HOUR && input.duration !== Duration.ONE_HOUR) {
@@ -102,7 +102,7 @@ export class DogWalkingBusiness {
       throw new Error(`O status do passeio deve ser alterado para '${Status.REALIZADO}'`);
     }
 
-    const editWalk = await this.dogWalkingDatabase.editWalt(input)
+    const editWalk = await this.dogWalkingDatabase.editWalk(input)
 
     return getWalkById
   }
