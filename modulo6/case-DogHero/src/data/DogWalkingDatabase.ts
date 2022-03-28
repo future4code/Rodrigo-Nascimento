@@ -15,7 +15,7 @@ export class DogWalkingDatabase extends BaseDatabase{
   getFutureOrPastWalks = async (task: string): Promise<DogWalkingResponse[]> => {
     const result = await BaseDatabase.connection(this.TABLE_NAME)
       .select()
-      .where({status: task})
+      .where("status", "like", `%${task}%`)
       .orderBy("date")
     
     return result

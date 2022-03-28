@@ -56,7 +56,7 @@ export class DogWalkingController {
     try {
       const result = await this.dogWalkingBusiness.editWalk(input)
 
-      res.send({result})
+      res.send({message: "Passeio alterado com sucesso!"})
       
     } catch (error: any) {
       res.status(400).send(error.message || error.sqlMessage)

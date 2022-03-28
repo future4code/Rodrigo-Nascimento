@@ -12,7 +12,7 @@ export class DogWalkingBusiness {
 
   getAllTasks = async (input?: string) => {
     let result
-    if (input?.toUpperCase() === Status.AGENDADO || input?.toUpperCase() === Status.REALIZADO) {
+    if (input?.toUpperCase() === Status.AGENDADO.toUpperCase() || input?.toUpperCase() === Status.REALIZADO.toUpperCase()) {
       result = await this.dogWalkingDatabase.getFutureOrPastWalks(input.toUpperCase())
     } else {
       result = await this.dogWalkingDatabase.getAllWalks()
@@ -89,13 +89,13 @@ export class DogWalkingBusiness {
     if (!getWalkById) {
       throw new Error("Passeio não encontrado. Informe um 'id' válido")
     }
+    
+    if (input.price !== this.validator.totalPricePerPetIsCorrect(input.duration, getWalkById.pets)) {
+      throw new Error(`Valor informado está incorreto. O 'price' deveria ser igual a ${this.validator.totalPricePerPetIsCorrect(input.duration, getWalkById.pets)}`)
+    }
 
     if(getWalkById.status === Status.REALIZADO){
       throw new Error("Esse passeio já foi realizado. Só é possível alterar passeios 'A realizar'")
-    }
-
-    if (input.price !== this.validator.totalPricePerPetIsCorrect(input.duration, getWalkById.pets)) {
-      throw new Error(`Valor informado está incorreto. O 'price' deveria ser igual a ${this.validator.totalPricePerPetIsCorrect(input.duration, getWalkById.pets)}`)
     }
 
     if (input.status !== Status.REALIZADO) {
@@ -104,6 +104,6 @@ export class DogWalkingBusiness {
 
     const editWalk = await this.dogWalkingDatabase.editWalk(input)
 
-    return getWalkById
+    return editWalk
   }
 }
