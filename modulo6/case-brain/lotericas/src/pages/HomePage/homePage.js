@@ -1,38 +1,69 @@
 import React, { useEffect, useState } from "react"
-import { getLoterias } from "../../requests/apiRequests"
+import { getConcursos, getConcursosById, getLoterias } from "../../requests/apiRequests"
 import { HomeContainer } from "./styled"
 import logo from "../../assets/logo.png"
 
 
 export const HomePage = () => {
-  const [id, setId] = useState([])
-  const [name, setName] = useState([])
-  const [result, setResult] = useState([])
+  const [id, setId] = useState(0)
+  const [lottery, setLottery] = useState([])
+  const [contest, setContest] = useState([])
+  const [constestId, setContestId] = useState(2359)
+  const [drawResult, setDrawResult] = useState([])
 
   useEffect(() => {
-    getLoterias(setResult, setId, setName)
+    getLoterias(setLottery)
+    getConcursos(setContest, setContestId)
+    getConcursosById(constestId, setDrawResult)
   }, [])
 
-  const selectOptions = result.map((res) => {
+  const selectOptions = lottery.map((res) => {
     const name = res.nome.toUpperCase()
     return (
-      <option>{name}</option>
+      <option value={res.id}>{name}</option>
     )
   })
+
+  const contestName = lottery.filter((res) => {
+    if (res.id === Number(id)) {
+      return res.nome
+    }
+  }).map((res) => {
+    const name = res.nome.toUpperCase()
+    return (
+      <div>
+        <img src={logo} alt="imagem trevo" />
+        {name}
+      </div>
+    )
+  })
+
+  const contestResult = contest.filter((res) => {
+    if (res.loteriaId === Number(id)) {
+      return res.concursoId
+    }
+  }).map((res) => {
+    return (
+      <div>
+        {res.concursoId}
+      </div>
+    )
+  })
+
+  console.log(drawResult)
 
   return (
     <HomeContainer>
       <div className="left-side">
-        <select>
+        <select onChange={e => setId(e.target.value)}>
           {selectOptions}
         </select>
         <div>
-          <img src={logo} alt="imagem trevo" />
-          MEGASENA
+          {contestName}
         </div>
         <div>
           Concurso
-          <p>NÚMEROS ALEATÓRIOS</p>
+          <p>{contestResult}</p>
         </div>
       </div>
       <div>
