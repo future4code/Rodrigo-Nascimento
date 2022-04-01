@@ -10,19 +10,13 @@ export const HomePage = () => {
   const [contest, setContest] = useState([])
   const [contestInfo, setContestInfo] = useState([])
   const [drawResult, setDrawResult] = useState([])
-  const [teste111, setTeste111] = useState([])
  
   useEffect(() => {
     getLoterias(setLottery)
-    getConcursos(setContest, setTeste111)
+    getConcursos(setContest)
     // getConcursosById(contestResult, setDrawResult, setContestInfo)
-  }, [])
-
-  useEffect(() => {
     getConcursosById(contestResult, setDrawResult, setContestInfo)
-
   }, [id])
-
  
   const selectOptions = lottery.map((res) => {
     return (
