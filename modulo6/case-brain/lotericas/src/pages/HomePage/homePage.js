@@ -8,23 +8,29 @@ export const HomePage = () => {
   const [id, setId] = useState(0)
   const [lottery, setLottery] = useState([])
   const [contest, setContest] = useState([])
-  const [constestId, setContestId] = useState(2359)
+  const [contestInfo, setContestInfo] = useState([])
   const [drawResult, setDrawResult] = useState([])
-
+  const [teste111, setTeste111] = useState([])
+ 
   useEffect(() => {
     getLoterias(setLottery)
-    getConcursos(setContest, setContestId)
-    getConcursosById(constestId, setDrawResult)
+    getConcursos(setContest, setTeste111)
+    // getConcursosById(contestResult, setDrawResult, setContestInfo)
   }, [])
 
+  useEffect(() => {
+    getConcursosById(contestResult, setDrawResult, setContestInfo)
+
+  }, [id])
+
+ 
   const selectOptions = lottery.map((res) => {
-    const name = res.nome.toUpperCase()
     return (
-      <option value={res.id}>{name}</option>
+      <option value={res.id} key={res.id}>{res.nome.toUpperCase()}</option>
     )
   })
 
-  const contestName = lottery.filter((res) => {
+  const contestName = lottery && lottery.filter((res) => {
     if (res.id === Number(id)) {
       return res.nome
     }
@@ -38,19 +44,24 @@ export const HomePage = () => {
     )
   })
 
-  const contestResult = contest.filter((res) => {
+  const contestResult = contest && contest.filter((res) => {
     if (res.loteriaId === Number(id)) {
-      return res.concursoId
+      // contestId = res.concursoId
+      return res
     }
   }).map((res) => {
-    return (
+    return res.concursoId
+  })
+
+  const teste131231 = drawResult.map((res) => {
+    return(
       <div>
-        {res.concursoId}
+        {res}
       </div>
     )
   })
+  console.log(contestResult, "constest")
 
-  console.log(drawResult)
 
   return (
     <HomeContainer>
@@ -63,11 +74,12 @@ export const HomePage = () => {
         </div>
         <div>
           Concurso
-          <p>{contestResult}</p>
+          {/* <p>{contestResult}</p> */}
         </div>
       </div>
       <div>
-        parte direita
+      {teste131231}
+        parte direitaa
       </div>
     </HomeContainer>
   )
