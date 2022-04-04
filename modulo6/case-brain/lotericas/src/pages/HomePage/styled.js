@@ -54,13 +54,13 @@ justify-content: space-between;
     
   }
   .disclaimer{
-    left: 47.62%;
+    left: 52.62%;
     right: 11.75%;
     top: 89.17%;
     bottom: 8.98%;
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     position: absolute;
   }
@@ -89,10 +89,10 @@ justify-content: space-between;
 .result-logo{
   p{
     position: absolute;
-    right: 73.57%;
-    top: 45.43%;
+    right: 71.57%;
+    top: 46.43%;
     bottom: 49.52%;
-    left: 9.81%;
+    left: 8.81%;
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
@@ -120,7 +120,7 @@ justify-content: space-between;
     bottom: 11.84%;
     font-style: normal;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 17px;
     letter-spacing: 0.135em;
     position: absolute;
@@ -135,7 +135,7 @@ justify-content: space-between;
   bottom: 8.59%;
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 24px;
   color: #FFFFFF;
   position: absolute;
