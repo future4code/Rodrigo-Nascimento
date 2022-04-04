@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { getConcursos, getConcursosById, getLoterias } from "../../requests/apiRequests"
-import { HomeContainer } from "./styled"
+import { HomeContainer, Circle } from "./styled"
 import logo from "../../assets/logo.png"
 
 
@@ -10,14 +10,13 @@ export const HomePage = () => {
   const [contest, setContest] = useState([])
   const [contestInfo, setContestInfo] = useState([])
   const [drawResult, setDrawResult] = useState([])
- 
+
   useEffect(() => {
     getLoterias(setLottery)
     getConcursos(setContest)
-    // getConcursosById(contestResult, setDrawResult, setContestInfo)
     getConcursosById(contestResult, setDrawResult, setContestInfo)
   }, [id])
- 
+
   const selectOptions = lottery.map((res) => {
     return (
       <option value={res.id} key={res.id}>{res.nome.toUpperCase()}</option>
@@ -31,31 +30,38 @@ export const HomePage = () => {
   }).map((res) => {
     const name = res.nome.toUpperCase()
     return (
-      <div>
+      <div className="result-logo" key={res}>
         <img src={logo} alt="imagem trevo" />
-        {name}
+        <p>
+          {name}
+        </p>
       </div>
     )
   })
 
   const contestResult = contest && contest.filter((res) => {
     if (res.loteriaId === Number(id)) {
-      // contestId = res.concursoId
       return res
     }
   }).map((res) => {
     return res.concursoId
   })
 
-  const teste131231 = drawResult.map((res) => {
-    return(
-      <div>
+  const contestNumbers = drawResult.map((res) => {
+    return (
+      <div className="circle" key={res}>
         {res}
       </div>
     )
   })
-  console.log(contestResult, "constest")
 
+  const contestNameAndDate = contestInfo.map((res) => {
+    return (
+      <div className="name-and-date" key={res}>
+        {res.id} - {new Date(res.data).toLocaleDateString()}
+      </div>
+    )
+  })
 
   return (
     <HomeContainer>
@@ -66,14 +72,20 @@ export const HomePage = () => {
         <div>
           {contestName}
         </div>
-        <div>
-          Concurso
-          {/* <p>{contestResult}</p> */}
+        <div className="contest-title">
+          <p>
+            CONCURSO
+          </p>       
+            {contestNameAndDate}
         </div>
       </div>
-      <div>
-      {teste131231}
-        parte direitaa
+      <div className="right-side">
+        <div className="balls">
+          {contestNumbers}
+        </div>
+        <p className="disclaimer">
+          Este sorteio é meramente ilustrativo e não possui nenhuma ligação com a CAIXA.
+        </p>
       </div>
     </HomeContainer>
   )
