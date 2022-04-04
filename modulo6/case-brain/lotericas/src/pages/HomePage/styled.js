@@ -1,4 +1,33 @@
 import styledComponents from "styled-components";
+import megaSena from "../../assets/mega-sena.png"
+import diaDeSorte from "../../assets/dia-de-sorte.png"
+import lotoFacil from "../../assets/lotofacil.png"
+import lotomania from "../../assets/lotomania.png"
+import quina from "../../assets/quina.png"
+import timeMania from "../../assets/timemania.png"
+
+
+export const colors = color => {
+  if(color === "0"){
+    return `background-image: url(${megaSena})`
+  }
+  if(color === "1"){
+    return `background-image: url(${quina})`
+  }
+  if(color === "2"){
+    return `background-image: url(${lotoFacil})`
+  }
+  if(color === "3"){
+    return `background-image: url(${lotomania})`
+  }
+  if(color === "4"){
+    return `background-image: url(${timeMania})`
+  }
+  if(color === "5"){
+    return `background-image: url(${diaDeSorte})`
+  }
+
+}
 
 export const HomeContainer = styledComponents.div`
 
@@ -38,10 +67,11 @@ justify-content: space-between;
 }
 
 .left-side{
+  ${({color}) => colors(color)};  
   display: flex;
-  background-color: #6BEFA3;
+  background-repeat: no-repeat; 
+  background-size: cover; 
   width: 30vw;
-  // border-radius: 30px;
 
   select{
     border-radius: 5px;

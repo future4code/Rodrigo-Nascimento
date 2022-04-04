@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png"
 
 
 export const HomePage = () => {
-  const [id, setId] = useState(0)
+  const [id, setId] = useState("0")
   const [lottery, setLottery] = useState([])
   const [contest, setContest] = useState([])
   const [contestInfo, setContestInfo] = useState([])
@@ -64,7 +64,7 @@ export const HomePage = () => {
   })
 
   return (
-    <HomeContainer>
+    <HomeContainer color={id}>
       <div className="left-side">
         <select onChange={e => setId(e.target.value)}>
           {selectOptions}
